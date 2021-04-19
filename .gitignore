@@ -1,1 +1,5 @@
 .history/
+*.pyc
+*.vcd
+*.vvp
+results.xml
