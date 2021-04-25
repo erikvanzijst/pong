@@ -2,4 +2,8 @@
 *.pyc
 *.vcd
 *.vvp
-results.xml
+results.xml*.asc
+*.bin
+*.json
+*.log
+*.rpt

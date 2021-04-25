@@ -1,0 +1,62 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Sat Apr 24 21:39:00 2021
+[*]
+[dumpfile] "/home/erik/work/WTFpga/wtfpga/wtfpga.vcd"
+[dumpfile_mtime] "Sat Apr 24 21:37:39 2021"
+[dumpfile_size] 159690
+[savefile] "/home/erik/work/WTFpga/wtfpga/wtfpga.gtkw"
+[timestart] 158680000
+[size] 2659 985
+[pos] -1 -1
+*-21.037308 92877000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] top.
+[treeopen] top.screen0.
+[sst_width] 233
+[signals_width] 191
+[sst_expanded] 1
+[sst_vpaned_height] 279
+@200
+-
+-top
+@28
+top.CLK
+top.reset
+@24
+top.x[3:0]
+top.y[3:0]
+@200
+-
+-
+-screen
+@24
+top.screen0.x[3:0]
+top.screen0.y[3:0]
+@200
+-
+@22
+top.screen0.row[3:0]
+@24
+top.screen0.corrected_row[3:0]
+@201
+-
+@28
+top.screen0.rsdi
+top.screen0.rclk
+@200
+-
+@28
+top.screen0.csdi
+top.screen0.cclk
+@200
+-
+@28
+top.screen0.le
+@200
+-
+-ball
+@24
+top.ball0.x[3:0]
+top.ball0.y[3:0]
+[pattern_trace] 1
+[pattern_trace] 0
