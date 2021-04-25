@@ -1,6 +1,6 @@
 module dump();
     initial begin
-        $dumpfile ("wtfpga.vcd");
+        $dumpfile ("pong.vcd");
         $dumpvars (0, top);
         #1;
     end

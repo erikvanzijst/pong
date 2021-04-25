@@ -10,7 +10,7 @@ async def reset(dut):
     dut.reset <= 0
 
 @cocotb.test()
-async def test_wtfpga(dut):
+async def test_pong(dut):
     clock = Clock(dut.CLK, 83, units="ns")
     cocotb.fork(clock.start())
 

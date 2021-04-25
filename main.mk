@@ -18,8 +18,8 @@ endif
 sim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -Ptop.SCREENTIMERWIDTH=6 -Ptop.BALLSPEED=32 -s top -s dump wtfpga.v clkdiv.v screen.v ball.v math.v test/dump_wtfpga.v
-	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_wtfpga vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
+	iverilog -o sim_build/sim.vvp -Ptop.SCREENTIMERWIDTH=6 -Ptop.BALLSPEED=32 -s top -s dump pong.v clkdiv.v screen.v ball.v math.v test/dump_pong.v
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
 mathsim:
 	rm -rf sim_build/

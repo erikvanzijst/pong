@@ -2,10 +2,10 @@
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
 [*] Sat Apr 24 21:39:00 2021
 [*]
-[dumpfile] "/home/erik/work/WTFpga/wtfpga/wtfpga.vcd"
+[dumpfile] "/home/erik/work/WTFpga/wtfpga.vcd"
 [dumpfile_mtime] "Sat Apr 24 21:37:39 2021"
 [dumpfile_size] 159690
-[savefile] "/home/erik/work/WTFpga/wtfpga/wtfpga.gtkw"
+[savefile] "/home/erik/work/WTFpga/wtfpga.gtkw"
 [timestart] 158680000
 [size] 2659 985
 [pos] -1 -1
