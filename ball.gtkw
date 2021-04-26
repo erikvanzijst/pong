@@ -1,18 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Mon Apr 26 01:43:04 2021
+[*] Mon Apr 26 05:14:50 2021
 [*]
 [dumpfile] "/home/erik/work/pong/ball.vcd"
-[dumpfile_mtime] "Mon Apr 26 01:42:02 2021"
-[dumpfile_size] 1912
+[dumpfile_mtime] "Mon Apr 26 05:13:51 2021"
+[dumpfile_size] 3116
 [savefile] "/home/erik/work/pong/ball.gtkw"
-[timestart] 29700
-[size] 2060 676
-[pos] -167 -1
-*-17.290199 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 0
+[size] 2199 676
+[pos] -1 -1
+*-19.290199 2943000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ball.
 [sst_width] 233
-[signals_width] 158
+[signals_width] 343
 [sst_expanded] 1
 [sst_vpaned_height] 172
 @28
@@ -34,15 +34,17 @@ ball.sin_theta[7:0]
 ball.cos_theta[7:0]
 @200
 -
+@420
+ball.dx[20:0]
 @22
-ball.dx[15:0]
-@24
-ball.dy[15:0]
+ball.dy[20:0]
 @200
 -
 @23
-ball.horizontal[15:0]
-@28
-ball.vertical[15:0]
+ball.horizontal[20:0]
+@22
+ball.vertical[20:0]
+@200
+-
 [pattern_trace] 1
 [pattern_trace] 0

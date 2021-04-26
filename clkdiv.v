@@ -21,3 +21,23 @@ module clkdiv
         end
     end
 endmodule
+
+module customclk
+    #(parameter TOP = 12000)
+    (
+        input clk,
+        input reset,
+        output clkout
+    );
+
+    reg [31:0] counter;
+    assign clkout = (counter == TOP);
+
+    always @(posedge clk) begin
+        if (reset) begin
+            counter <= 0;
+        end else begin
+            counter <= (counter == TOP) ? 0 : counter + 1;
+        end
+    end
+endmodule

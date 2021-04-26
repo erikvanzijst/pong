@@ -17,20 +17,19 @@ module top
     );
 
 	wire [3:0] x, y;
-	reg [9:0] ball_clk;
+	wire game_clk;
 	wire signed [4:0] speed;
 	assign speed = 1;
 
-	always @(posedge CLK) begin
-		if (reset) begin
-			ball_clk <= 0;
-		end else begin
-			ball_clk <= ball_clk + 1;
-		end
-	end
+	// A 1000Hz clock to driver the game:
+	customclk #(.TOP(12000)) game_clk_mod(
+		.clk(CLK),
+		.reset(reset),
+		.clkout(game_clk)
+	);
 
 	ball ball0(
-		.clk(ball_clk[9]),
+		.clk(game_clk),
 		.reset(reset),
 		.speed(speed),
 		.x(x),
