@@ -6,7 +6,7 @@ module top
 	  parameter BALLSPEED = 20)
 	(
 	input wire CLK,
-	input wire reset,
+	input wire BTN1,
 
 	output wire RCLK,
 	output wire RSDI,
@@ -16,6 +16,9 @@ module top
 	output wire LE
     );
 
+	wire reset;
+	assign reset = BTN1;
+
 	wire [3:0] x, y;
 	wire game_clk;
 	wire signed [4:0] speed;
@@ -24,7 +27,6 @@ module top
 	// A 1000Hz clock to driver the game:
 	customclk #(.TOP(6000)) game_clk_mod(
 		.clk(CLK),
-		.reset(reset),
 		.clkout(game_clk)
 	);
 

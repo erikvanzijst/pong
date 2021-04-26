@@ -30,7 +30,7 @@ mathsim:
 ballsim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump ball.v math.v test/dump_ball.v
+	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  clkdiv.v ball.v math.v test/dump_ball.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_ball vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/ballsim.vvp
 
 wave: sim

@@ -34,16 +34,16 @@ module ball #(parameter THETA_WIDTH = 6)
 
     // Temporary hardwired rotation:
     wire rotation_clk;
-    customclk #(.TOP(20)) rotator(.clk(clk), .reset(reset), .clkout(rotation_clk));
+    customclk #(.TOP(35)) rotator(.clk(clk), .clkout(rotation_clk));
 
     always @(posedge clk) begin
         if (reset) begin
             // place the ball at the center of the screen:
             horizontal <= 8 << 17;
-            vertical <= 8 << 17;
+            vertical <= 4 << 17;
 
             // start off in horizontal direction:
-            theta <= 8;
+            theta <= 0;
 
         end else begin
             horizontal <= horizontal + dx;
