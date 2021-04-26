@@ -6,7 +6,7 @@
  * value.
  */
 module sin
-    #(parameter SINE_TABLE = "sine.lut",
+    #(parameter FILE = "sine.lut",
       parameter THETA_WIDTH = 6)
     (input wire CLK,
      input wire [THETA_WIDTH-1:0] theta_i,
@@ -15,9 +15,30 @@ module sin
     reg [7:0] sine_lut [(1 << THETA_WIDTH)-1:0];
 
     initial begin
-        $readmemb(SINE_TABLE, sine_lut);
+        $readmemb(FILE, sine_lut);
     end
 
     assign sin_o = sine_lut[theta_i];
+
+endmodule
+
+/*
+ * Returns the cosine of theta_i. The result is an 8 bit wide, two's complement
+ * value.
+ */
+module cos
+    #(parameter FILE = "cosine.lut",
+      parameter THETA_WIDTH = 6)
+    (input wire CLK,
+     input wire [THETA_WIDTH-1:0] theta_i,
+     output wire [7:0] cos_o);
+
+    reg [7:0] cosine_lut [(1 << THETA_WIDTH)-1:0];
+
+    initial begin
+        $readmemb(FILE, cosine_lut);
+    end
+
+    assign cos_o = cosine_lut[theta_i];
 
 endmodule

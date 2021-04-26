@@ -7,3 +7,4 @@ results.xml*.asc
 *.json
 *.log
 *.rpt
+results.xml

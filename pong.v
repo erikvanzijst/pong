@@ -17,10 +17,22 @@ module top
     );
 
 	wire [3:0] x, y;
+	reg [9:0] ball_clk;
+	wire signed [4:0] speed;
+	assign speed = 1;
 
-	ball #(.SPEED(BALLSPEED)) ball0(
-		.clk(CLK),
+	always @(posedge CLK) begin
+		if (reset) begin
+			ball_clk <= 0;
+		end else begin
+			ball_clk <= ball_clk + 1;
+		end
+	end
+
+	ball ball0(
+		.clk(ball_clk[9]),
 		.reset(reset),
+		.speed(speed),
 		.x(x),
 		.y(y)
 	);
