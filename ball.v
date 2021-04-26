@@ -3,7 +3,7 @@
 
 module ball #(parameter THETA_WIDTH = 6)
 	(
-	input wire clk, // should be 1000Hz for optimally playable speed
+	input wire clk, // should be 500Hz for optimally playable speed
 	input wire reset,
 
     // the ball's current vector:
@@ -32,6 +32,10 @@ module ball #(parameter THETA_WIDTH = 6)
     sin #(.THETA_WIDTH(THETA_WIDTH)) sinlut (.CLK(clk), .theta_i(theta), .sin_o(sin_theta));
     cos #(.THETA_WIDTH(THETA_WIDTH)) coslut (.CLK(clk), .theta_i(theta), .cos_o(cos_theta));
 
+    // Temporary hardwired rotation:
+    wire rotation_clk;
+    customclk #(.TOP(20)) rotator(.clk(clk), .reset(reset), .clkout(rotation_clk));
+
     always @(posedge clk) begin
         if (reset) begin
             // place the ball at the center of the screen:
@@ -39,11 +43,14 @@ module ball #(parameter THETA_WIDTH = 6)
             vertical <= 8 << 17;
 
             // start off in horizontal direction:
-            theta <= 0;
+            theta <= 8;
 
         end else begin
             horizontal <= horizontal + dx;
             vertical <= vertical + dy;
+
+            theta <= rotation_clk ? theta + 1 : theta;
         end
     end
+
 endmodule

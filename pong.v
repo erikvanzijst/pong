@@ -19,10 +19,10 @@ module top
 	wire [3:0] x, y;
 	wire game_clk;
 	wire signed [4:0] speed;
-	assign speed = 1;
+	assign speed = 15;
 
 	// A 1000Hz clock to driver the game:
-	customclk #(.TOP(12000)) game_clk_mod(
+	customclk #(.TOP(6000)) game_clk_mod(
 		.clk(CLK),
 		.reset(reset),
 		.clkout(game_clk)
