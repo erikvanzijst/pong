@@ -3,7 +3,7 @@
 
 module ball #(parameter THETA_WIDTH = 6)
 	(
-	input wire clk, // should be 500Hz for optimally playable speed
+	input wire clk, // should be 2000Hz for optimally playable speed
 	input wire reset,
 
     // the ball's current vector:
@@ -15,41 +15,64 @@ module ball #(parameter THETA_WIDTH = 6)
 
     reg [THETA_WIDTH-1:0] theta;   // angular direction in 64 increments
 
-    reg [20:0] horizontal;  // 4 high bits is x pos on screen
-    reg [20:0] vertical;    // 4 high bits is y pos on screen
+    reg [20:0] hor;     // 4 high bits is x pos on screen
+    reg [20:0] vert;    // 4 high bits is y pos on screen
 
-    assign x = horizontal[20:17];
-    assign y = vertical[20:17];
+    assign x = hor[20:17];
+    assign y = vert[20:17];
 
     wire signed [7:0] sin_theta;
     wire signed [7:0] cos_theta;
+    wire signed [20:0] next_hor;
+    wire signed [20:0] next_vert;
+
     wire signed [20:0] dx;
     wire signed [20:0] dy;
-
     assign dx = cos_theta * speed;
     assign dy = sin_theta * speed;
+
+    assign next_hor = hor + dx;
+    assign next_vert = vert + dy;
+
+    wire [3:0] wrap_x;
+    assign wrap_x = (!next_hor[20:17] && x && !(theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2])) ||    // left
+                    (next_hor[20:17] && !x && (theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]));       // right
+    wire [3:0] wrap_y;
+    assign wrap_y = (next_vert[20:17] && !y && theta[THETA_WIDTH-1]) ||     // top
+                    (!next_vert[20:17] && y && !theta[THETA_WIDTH-1]);      // bottom
 
     sin #(.THETA_WIDTH(THETA_WIDTH)) sinlut (.CLK(clk), .theta_i(theta), .sin_o(sin_theta));
     cos #(.THETA_WIDTH(THETA_WIDTH)) coslut (.CLK(clk), .theta_i(theta), .cos_o(cos_theta));
 
     // Temporary hardwired rotation:
     wire rotation_clk;
-    customclk #(.TOP(35)) rotator(.clk(clk), .clkout(rotation_clk));
+    customclk #(.TOP(500)) rotator(.clk(clk), .clkout(rotation_clk));
 
     always @(posedge clk) begin
         if (reset) begin
             // place the ball at the center of the screen:
-            horizontal <= 8 << 17;
-            vertical <= 4 << 17;
+            hor <= 8 << 17;
+            vert <= 8 << 17;
 
-            // start off in horizontal direction:
+            // start off in hor direction:
             theta <= 0;
 
         end else begin
-            horizontal <= horizontal + dx;
-            vertical <= vertical + dy;
+            if (wrap_x) begin
+                theta <= (1 << THETA_WIDTH-1) - theta;
+            end else begin
+                hor <= next_hor;
+            end
 
-            theta <= rotation_clk ? theta + 1 : theta;
+            if (wrap_y) begin
+                theta <= (1 << THETA_WIDTH) - theta;
+            end else begin
+                vert <= next_vert;
+            end
+
+            // Introduce some gradual curving:
+            if (!wrap_x && ! wrap_y)
+                theta <= rotation_clk ? theta + 1 : theta;
         end
     end
 

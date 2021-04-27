@@ -84,20 +84,35 @@ async def test_ball(dut):
     await clear()
 
 
-    # At horizontal 11FFFF we should roll from col 8 to col 9:
-    dut.speed = 0
-    dut.theta = 0
-    dut.horizontal = 0x11FFFF
-    await ClockCycles(dut.clk, 1)
-    assert(dut.x == 8)
-    await step(1, 0)
-    assert(dut.x == 9)
+    # # At horizontal 11FFFF we should roll from col 8 to col 9:
+    # dut.speed = 0
+    # dut.theta = 0
+    # dut.horizontal = 0x11FFFF
+    # await ClockCycles(dut.clk, 1)
+    # assert(dut.x == 8)
+    # await step(1, 0)
+    # assert(dut.x == 9)
 
-    # After col 15 we should wrap to col 0:
+    # # After col 15 we should wrap to col 0:
+    # dut.speed = 0
+    # dut.theta = 0
+    # dut.horizontal = 0x1FFFFF
+    # await ClockCycles(dut.clk, 1)
+    # assert(dut.x == 15)
+    # await step(1, 0)
+    # assert(dut.x == 0)
+
+
+    # Bounce off left edge:
     dut.speed = 0
     dut.theta = 0
     dut.horizontal = 0x1FFFFF
     await ClockCycles(dut.clk, 1)
     assert(dut.x == 15)
-    await step(1, 0)
-    assert(dut.x == 0)
+    await step(1, 2)
+    assert(dut.x == 15)
+    assert(dut.theta == 30)
+
+    await step(1, dut.theta.value.integer)
+    assert(dut.theta == 30)
+    assert(dut.x == 15)
