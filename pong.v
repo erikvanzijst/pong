@@ -3,7 +3,9 @@
 
 module pong
     #(parameter integer SCREENTIMERWIDTH = 10,
-      parameter integer BALLSPEED = 20)
+      parameter integer BALLSPEED = 20,
+      parameter SIN_LUT = "sine.lut",
+      parameter COS_LUT = "cosine.lut")
     (
     input wire clk,
     input wire BTN1,
