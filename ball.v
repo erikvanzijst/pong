@@ -1,10 +1,10 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module ball #(parameter THETA_WIDTH = 6)
-	(
-	input wire clk, // should be 2000Hz for optimally playable speed
-	input wire reset,
+module ball #(parameter integer THETA_WIDTH = 6)
+    (
+    input wire clk, // should be 2000Hz for optimally playable speed
+    input wire reset,
 
     // the ball's current vector:
     input signed [4:0] speed,       // length of the direction vector (speed range: -16 to 15)
@@ -35,8 +35,10 @@ module ball #(parameter THETA_WIDTH = 6)
     assign next_vert = vert + dy;
 
     wire [3:0] wrap_x;
-    assign wrap_x = (!next_hor[20:17] && x && !(theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2])) ||    // left
-                    (next_hor[20:17] && !x && (theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]));       // right
+    assign wrap_x = (!next_hor[20:17] && x &&
+                        !(theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2])) ||    // left
+                    (next_hor[20:17] && !x &&
+                        (theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]));       // right
     wire [3:0] wrap_y;
     assign wrap_y = (next_vert[20:17] && !y && theta[THETA_WIDTH-1]) ||     // top
                     (!next_vert[20:17] && y && !theta[THETA_WIDTH-1]);      // bottom

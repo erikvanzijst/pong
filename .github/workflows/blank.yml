@@ -21,9 +21,16 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a set of commands using the runners shell
-      - name: Build and test
+      - name: Lint
+        run: make lint
+
+      - name: Build iCE40 FPGA bitstream
         run: |
-          make
+          make pong.bin
           make ballsim
           make mathsim
           make sim
+
+      - name: Run cocotb test simulations
+        run: |
+          make ballsim mathsim sim

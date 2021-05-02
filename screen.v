@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module screen #(parameter TIMERWIDTH = 12)
+module screen #(parameter integer TIMERWIDTH = 12)
     (
     input clk,  // 12MHz
     input reset,

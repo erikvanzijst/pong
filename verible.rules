@@ -4,3 +4,4 @@
 -always-comb
 -unpacked-dimensions-range-ordering
 -no-tabs
+-allow-dash-for-underscore

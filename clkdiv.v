@@ -2,7 +2,7 @@
 `timescale 1ns / 1ps
 
 module clkdiv
-    #(parameter WIDTH = 16)
+    #(parameter integer WIDTH = 16)
     (
     input wire clk,
     output clkout
@@ -17,7 +17,7 @@ module clkdiv
 endmodule
 
 module customclk
-    #(parameter TOP = 12000)
+    #(parameter integer TOP = 12000)
     (
         input clk,
         output clkout

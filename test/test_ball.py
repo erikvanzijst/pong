@@ -85,8 +85,7 @@ async def test_ball(dut):
     # Move at max forward speed (15)
     await step(15, 0)
     assert(dut.hor == 0x100771 and dut.x == 8)
-    assert(dut.vert
-     == 0x100000 and dut.y == 8)
+    assert(dut.vert == 0x100000 and dut.y == 8)
     await clear()
 
 
