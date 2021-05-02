@@ -40,54 +40,60 @@ async def test_ball(dut):
 
     dut.speed = 0
     await ClockCycles(dut.clk, 2)
-    assert(dut.horizontal == 0x100000 and dut.x == 8)
-    assert(dut.vertical == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.vert == 0x100000 and dut.y == 8)
 
     # Move left and right at speed 1:
     await step(1, 0)
-    assert(dut.horizontal == 0x10007F and dut.x == 8)
-    assert(dut.vertical == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x10007F and dut.x == 8)
+    assert(dut.vert == 0x100000 and dut.y == 8)
 
     # turn around 180 degrees:
     await step(1, 32)
-    assert(dut.horizontal == 0x100000 and dut.x == 8)
-    assert(dut.vertical == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.vert
+     == 0x100000 and dut.y == 8)
     await clear()
 
 
     # Move down and up at speed 1:
     await step(1, 16)
-    assert(dut.horizontal == 0x100000 and dut.x == 8)
-    assert(dut.vertical == 0x10007F and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.vert
+     == 0x10007F and dut.y == 8)
 
     # turn around 180 degrees and move up:
     await step(1, 48)
-    assert(dut.horizontal == 0x100000 and dut.x == 8)
-    assert(dut.vertical == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.vert
+     == 0x100000 and dut.y == 8)
     await clear()
 
 
     # Move at 45 degrees:
     await step(1, 40)
-    assert(dut.horizontal == 0x0FFFA7 and dut.x == 7)
-    assert(dut.vertical == 0x0FFFA7 and dut.y == 7)
+    assert(dut.hor == 0x0FFFA7 and dut.x == 7)
+    assert(dut.vert
+     == 0x0FFFA7 and dut.y == 7)
     await step(1, 8)
-    assert(dut.horizontal == 0x100000 and dut.x == 8)
-    assert(dut.vertical == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.vert
+     == 0x100000 and dut.y == 8)
     await clear()
 
 
     # Move at max forward speed (15)
     await step(15, 0)
-    assert(dut.horizontal == 0x100771 and dut.x == 8)
-    assert(dut.vertical == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100771 and dut.x == 8)
+    assert(dut.vert
+     == 0x100000 and dut.y == 8)
     await clear()
 
 
-    # # At horizontal 11FFFF we should roll from col 8 to col 9:
+    # # At hor 11FFFF we should roll from col 8 to col 9:
     # dut.speed = 0
     # dut.theta = 0
-    # dut.horizontal = 0x11FFFF
+    # dut.hor = 0x11FFFF
     # await ClockCycles(dut.clk, 1)
     # assert(dut.x == 8)
     # await step(1, 0)
@@ -96,7 +102,7 @@ async def test_ball(dut):
     # # After col 15 we should wrap to col 0:
     # dut.speed = 0
     # dut.theta = 0
-    # dut.horizontal = 0x1FFFFF
+    # dut.hor = 0x1FFFFF
     # await ClockCycles(dut.clk, 1)
     # assert(dut.x == 15)
     # await step(1, 0)
@@ -106,7 +112,7 @@ async def test_ball(dut):
     # Bounce off left edge:
     dut.speed = 0
     dut.theta = 0
-    dut.horizontal = 0x1FFFFF
+    dut.hor = 0x1FFFFF
     await ClockCycles(dut.clk, 1)
     assert(dut.x == 15)
     await step(1, 2)

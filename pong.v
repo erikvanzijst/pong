@@ -1,11 +1,11 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module top
+module pong
 	#(parameter SCREENTIMERWIDTH = 10,
 	  parameter BALLSPEED = 20)
 	(
-	input wire CLK,
+	input wire clk,
 	input wire BTN1,
 
 	output wire RCLK,
@@ -26,7 +26,7 @@ module top
 
 	// A 1000Hz clock to driver the game:
 	customclk #(.TOP(6000)) game_clk_mod(
-		.clk(CLK),
+		.clk(clk),
 		.clkout(game_clk)
 	);
 
@@ -39,7 +39,7 @@ module top
 	);
 
 	screen #(.TIMERWIDTH(SCREENTIMERWIDTH)) screen0(
-		.clk(CLK),
+		.clk(clk),
 		.reset(reset),
 		.x(x),
 		.y(y),

@@ -2,10 +2,10 @@
 all: $(PROJ).rpt $(PROJ).bin
 
 %.blif: %.v $(ADD_SRC) $(ADD_DEPS)
-	yosys -ql $*.log -p 'synth_ice40 -top top -blif $@' $< $(ADD_SRC)
+	yosys -ql $*.log -p 'synth_ice40 -top pong -blif $@' $< $(ADD_SRC)
 
 %.json: %.v $(ADD_SRC) $(ADD_DEPS)
-	yosys -ql $*.log -p 'synth_ice40 -top top -json $@' $< $(ADD_SRC)
+	yosys -ql $*.log -p 'synth_ice40 -top pong -json $@' $< $(ADD_SRC)
 
 ifeq ($(USE_ARACHNEPNR),)
 %.asc: $(PIN_DEF) %.json
@@ -18,7 +18,7 @@ endif
 sim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -Ptop.SCREENTIMERWIDTH=6 -Ptop.BALLSPEED=32 -s top -s dump pong.v clkdiv.v screen.v ball.v math.v test/dump_pong.v
+	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump pong.v clkdiv.v screen.v ball.v math.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
 mathsim:
