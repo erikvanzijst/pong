@@ -6,7 +6,7 @@
  * value.
  */
 module sin
-    #(parameter string FILE = "sine.lut",
+    #(parameter FILE = "sine.lut",
       parameter integer THETA_WIDTH = 6)
     (input wire CLK,
      input wire [THETA_WIDTH-1:0] theta_i,
@@ -27,7 +27,7 @@ endmodule
  * value.
  */
 module cos
-    #(parameter string FILE = "cosine.lut",
+    #(parameter FILE = "cosine.lut",
       parameter integer THETA_WIDTH = 6)
     (input wire CLK,
      input wire [THETA_WIDTH-1:0] theta_i,
