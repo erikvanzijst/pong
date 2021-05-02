@@ -20,10 +20,6 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a set of commands using the runners shell
-      - name: Lint
-        run: make lint
-
       - name: Build iCE40 FPGA bitstream
         run: |
           make pong.bin
@@ -34,3 +30,6 @@ jobs:
       - name: Run cocotb test simulations
         run: |
           make ballsim mathsim sim
+
+      - name: Lint
+        run: make lint
