@@ -1,10 +1,10 @@
 
 all: $(PROJ).rpt $(PROJ).bin
 
-%.blif: %.v $(ADD_SRC) $(ADD_DEPS)
+%.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top pong -blif $@' $< $(ADD_SRC)
 
-%.json: %.v $(ADD_SRC) $(ADD_DEPS)
+%.json: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top pong -json $@' $< $(ADD_SRC)
 
 ifeq ($(USE_ARACHNEPNR),)
@@ -18,19 +18,19 @@ endif
 sim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump pong.v clkdiv.v screen.v ball.v math.v test/dump_pong.v
+	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
 mathsim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/mathsim.vvp -s sin -s dump math.v test/dump_math.v
+	iverilog -o sim_build/mathsim.vvp -s sin -s dump src/math.v test/dump_math.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_math vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/mathsim.vvp
 
 ballsim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  clkdiv.v ball.v math.v test/dump_ball.v
+	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  src/clkdiv.v src/ball.v src/math.v test/dump_ball.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_ball vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/ballsim.vvp
 
 wave: sim
