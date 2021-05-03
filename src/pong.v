@@ -3,9 +3,7 @@
 
 module pong
     #(parameter integer SCREENTIMERWIDTH = 10,
-      parameter integer BALLSPEED = 20,
-      parameter SIN_LUT = "sine.lut",
-      parameter COS_LUT = "cosine.lut")
+      parameter integer BALLSPEED = 20)
     (
     input wire clk,
     input wire BTN1,
@@ -26,10 +24,31 @@ module pong
     wire signed [4:0] speed;
     assign speed = 15;
 
+    wire [15:0] paddle_l;
+    wire [15:0] paddle_r;
+
     // A 1000Hz clock to driver the game:
     customclk #(.TOP(6000)) game_clk_mod(
         .clk(clk),
         .clkout(game_clk)
+    );
+
+    paddle paddle0(
+        .clk(clk),
+        .reset(reset),
+        .up(BTN1),
+        .down(BTN1),
+        .width(2'b1),
+        .paddle_o(paddle_l)
+    );
+
+    paddle paddle1(
+        .clk(clk),
+        .reset(reset),
+        .up(BTN1),
+        .down(BTN1),
+        .width(2'b1),
+        .paddle_o(paddle_r)
     );
 
     ball ball0(

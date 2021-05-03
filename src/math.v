@@ -6,8 +6,7 @@
  * value.
  */
 module sin
-    #(parameter FILE = "sine.lut",
-      parameter integer THETA_WIDTH = 6)
+    #(parameter integer THETA_WIDTH = 6)
     (input wire CLK,
      input wire [THETA_WIDTH-1:0] theta_i,
      output wire [7:0] sin_o);
@@ -15,7 +14,7 @@ module sin
     reg [7:0] sine_lut [(1 << THETA_WIDTH)-1:0];
 
     initial begin
-        $readmemb(FILE, sine_lut);
+        $readmemb("sine.lut", sine_lut);
     end
 
     assign sin_o = sine_lut[theta_i];
@@ -27,8 +26,7 @@ endmodule
  * value.
  */
 module cos
-    #(parameter FILE = "cosine.lut",
-      parameter integer THETA_WIDTH = 6)
+    #(parameter integer THETA_WIDTH = 6)
     (input wire CLK,
      input wire [THETA_WIDTH-1:0] theta_i,
      output wire [7:0] cos_o);
@@ -36,7 +34,7 @@ module cos
     reg [7:0] cosine_lut [(1 << THETA_WIDTH)-1:0];
 
     initial begin
-        $readmemb(FILE, cosine_lut);
+        $readmemb("cosine.lut", cosine_lut);
     end
 
     assign cos_o = cosine_lut[theta_i];

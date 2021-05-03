@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module ball #(parameter SIN_LUT = "sine.lut", parameter COS_LUT = "cosine.lut", parameter integer THETA_WIDTH = 6)
+module ball #(parameter integer THETA_WIDTH = 6)
     (
     input wire clk, // should be 2000Hz for optimally playable speed
     input wire reset,
@@ -43,8 +43,8 @@ module ball #(parameter SIN_LUT = "sine.lut", parameter COS_LUT = "cosine.lut", 
     assign wrap_y = (next_vert[20:17] && !y && theta[THETA_WIDTH-1]) ||     // top
                     (!next_vert[20:17] && y && !theta[THETA_WIDTH-1]);      // bottom
 
-    sin #(.THETA_WIDTH(THETA_WIDTH), .FILE(SIN_LUT)) sinlut (.CLK(clk), .theta_i(theta), .sin_o(sin_theta));
-    cos #(.THETA_WIDTH(THETA_WIDTH), .FILE(COS_LUT)) coslut (.CLK(clk), .theta_i(theta), .cos_o(cos_theta));
+    sin #(.THETA_WIDTH(THETA_WIDTH)) sinlut (.CLK(clk), .theta_i(theta), .sin_o(sin_theta));
+    cos #(.THETA_WIDTH(THETA_WIDTH)) coslut (.CLK(clk), .theta_i(theta), .cos_o(cos_theta));
 
     // Temporary hardwired rotation:
     wire rotation_clk;

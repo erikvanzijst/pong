@@ -33,6 +33,12 @@ ballsim:
 	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  src/clkdiv.v src/ball.v src/math.v test/dump_ball.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_ball vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/ballsim.vvp
 
+paddlesim:
+	rm -rf sim_build/
+	mkdir sim_build/
+	iverilog -o sim_build/paddlesim.vvp -s paddle -s dump  src/paddle.v test/dump_paddle.v
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_paddle vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/paddlesim.vvp
+
 wave: sim
 	gtkwave $(PROJ).vcd $(PROJ).gtkw
 
@@ -64,10 +70,10 @@ prog: $(PROJ).bin
 	iceprog $<
 
 lint:
-	verible-verilog-lint *v --rules_config verible.rules
+	verible-verilog-lint src/*.v --rules_config verible.rules
 
 clean:
-	rm -f $(PROJ).blif $(PROJ).asc $(PROJ).rpt $(PROJ).bin $(PROJ).json $(PROJ).log $(PROJ).vcd $(ADD_CLEAN)
+	rm -f $(PROJ).blif $(PROJ).asc $(PROJ).rpt $(PROJ).bin $(PROJ).json $(PROJ).log *.vcd $(ADD_CLEAN)
 
 .SECONDARY:
 .PHONY: all prog clean
