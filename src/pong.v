@@ -64,6 +64,8 @@ module pong
         .reset(reset),
         .x(x),
         .y(y),
+        .lpaddle(paddle_l),
+        .rpaddle(paddle_r),
         .rclk(RCLK),
         .rsdi(RSDI),
         .oeb(OEB),

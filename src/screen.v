@@ -7,6 +7,8 @@ module screen #(parameter integer TIMERWIDTH = 12)
     input reset,
     input wire [3:0] x,
     input wire [3:0] y,
+    input wire [15:0] lpaddle,
+    input wire [15:0] rpaddle,
     output reg rclk,
     output reg rsdi,
     output wire oeb,
@@ -53,7 +55,16 @@ module screen #(parameter integer TIMERWIDTH = 12)
                 rclk <= 0;
                 cclk <= 0;
 
-                csdi <= (col>>4 == 0) && corrected_row == y && x == col[3:0];
+                csdi <= (col>>4 == 0) && (
+                    // ball:
+                    (corrected_row == y && x == col[3:0]) ||
+
+                    // left paddle:
+                    (col == 4'b0 && lpaddle[corrected_row]) ||
+
+                    // right paddle:
+                    (col == 4'hF && rpaddle[corrected_row])
+                    );
 
             end else begin
                 rclk <= col == 0 ? 1 : 0;
