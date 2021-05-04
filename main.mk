@@ -18,7 +18,7 @@ endif
 sim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v test/dump_pong.v
+	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
 mathsim:
@@ -36,7 +36,7 @@ ballsim:
 paddlesim:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/paddlesim.vvp -s paddle -s dump  src/paddle.v test/dump_paddle.v
+	iverilog -o sim_build/paddlesim.vvp -s paddle -s dump src/paddle.v test/dump_paddle.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_paddle vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/paddlesim.vvp
 
 wave: sim
