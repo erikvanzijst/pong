@@ -5,8 +5,9 @@ module paddle (
     input clk,
     input reset,
     input [1:0] width,      // 4 different paddle widths
-    input up,               // should go low immediately following high
-    input down,             // should go low immediately following high
+
+    input signed [1:0] encoder_value,
+
     output wire[15:0] paddle_o
 );
 
@@ -21,6 +22,10 @@ module paddle (
 
     assign paddle_o = paddles[width];
 
+    reg signed [1:0] prev;
+    wire signed [1:0] diff;
+    assign diff = encoder_value - prev;
+
     initial begin
         $readmemb("paddles.rom", rom);
     end
@@ -30,10 +35,12 @@ module paddle (
             ram <= rom[0];
 
         end else begin
-            if (up && !paddle_o[0]) begin
+            prev <= encoder_value;
+
+            if (diff == 1 && !paddle_o[0]) begin
                 ram <= {ram[0], ram[32*4-1:1]};
 
-            end else if (down && !paddle_o[15]) begin
+            end else if (diff == -1 && !paddle_o[15]) begin
                 ram <= {ram[32*4-2:0], ram[32*4-1]};
             end
         end

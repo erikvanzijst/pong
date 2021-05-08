@@ -13,7 +13,7 @@ module debounce #(
     reg [HIST_LEN-1:0] button_hist;
 
     always @(posedge clk) begin
-        if(reset) begin
+        if (reset) begin
 
             button_hist <= 0;
             debounced <= 1'b0;
@@ -22,10 +22,10 @@ module debounce #(
 
             button_hist <= {button_hist[HIST_LEN-2:0], button};
 
-            if(button_hist == on_value)
+            if (button_hist == on_value)
                 debounced <= 1'b1;
 
-            else if(button_hist == 8'b0)
+            else if (button_hist == 8'b0)
                 debounced <= 1'b0;
        end
     end

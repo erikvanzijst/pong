@@ -18,7 +18,7 @@ endif
 test_pong:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v test/dump_pong.v
+	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v src/debounce.v src/rot_encoder.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
 test_math:

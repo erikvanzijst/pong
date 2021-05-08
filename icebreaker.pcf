@@ -33,6 +33,12 @@ set_io -nowarn P1A8       48
 set_io -nowarn P1A9       46
 set_io -nowarn P1A10      44
 
+# PMOD 1A - Rotary encoders
+set_io -nowarn player1_a        4
+set_io -nowarn player1_b        2
+set_io -nowarn player2_a       47
+set_io -nowarn player2_b       45
+
 # PMOD 1B
 set_io -nowarn P1B1       43
 set_io -nowarn P1B2       38
@@ -99,6 +105,7 @@ set_io -nowarn ca         44
 #set_io -nowarn DIP7       32
 #set_io -nowarn DIP8       28
 
+# Matrix display
 set_io -nowarn OEB       43
 set_io -nowarn CSDI      38
 set_io -nowarn CCLK      34
