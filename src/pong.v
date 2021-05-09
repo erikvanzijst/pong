@@ -7,6 +7,7 @@ module pong
     (
     input wire clk,
     input wire BTN1,
+    input wire BTN2,
 
     input wire player1_a,
     input wire player1_b,
@@ -21,8 +22,9 @@ module pong
     output wire LE
     );
 
-    wire reset;
+    wire reset, start;
     assign reset = BTN1;
+    assign start = BTN2;
 
     wire player1_a_deb;
     wire player1_b_deb;
@@ -106,17 +108,25 @@ module pong
     paddle paddlemod_2(
         .clk(clk),
         .reset(reset),
+
+        // input:
         .encoder_value(player2_encoder),
         .width(2'b1),
+
+        // output:
         .paddle_o(paddle_2)
     );
 
-    ball ball0(
-        .clk(game_clk),
+    game game0(
+        .game_clk(game_clk),
         .reset(reset),
-        .speed(speed),
-        .lpaddle(16'hFFFF),
+
+        // input:
+        .lpaddle(paddle_1),
         .rpaddle(paddle_2),
+        .start(BTN2),
+
+        // output:
         .x(x),
         .y(y)
     );

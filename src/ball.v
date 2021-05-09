@@ -12,7 +12,10 @@ module ball #(parameter integer THETA_WIDTH = 6)
     input wire [15:0] rpaddle,
 
     output wire [3:0] x,
-    output wire [3:0] y
+    output wire [3:0] y,
+
+    output out_left,    // ball reached far-left edge
+    output out_right    // ball reached far-right edge
     );
 
     reg [THETA_WIDTH-1:0] theta;   // angular direction in 64 increments
@@ -46,6 +49,9 @@ module ball #(parameter integer THETA_WIDTH = 6)
         (next_hor[20:17] == 4'hF && moving_left && (lpaddle & (1 << next_vert[20:17]))) ||
         (next_hor[20:17] == 4'h0 && moving_right && (rpaddle & (1 << next_vert[20:17])));
 
+    assign out_left = !next_hor[20:17] && x && moving_left;
+    assign out_right = next_hor[20:17] && !x && moving_right;
+
     wire wrap_y;
     assign wrap_y = (next_vert[20:17] && !y && theta[THETA_WIDTH-1]) ||     // top
                     (!next_vert[20:17] && y && !theta[THETA_WIDTH-1]);      // bottom
@@ -63,11 +69,12 @@ module ball #(parameter integer THETA_WIDTH = 6)
             hor <= 8 << 17;
             vert <= 8 << 17;
 
+            // TODO: get start angle from input entropy
             // start off in hor direction:
             theta <= 0;
 
         end else begin
-            if (paddle_hit) begin
+            if (paddle_hit || out_left || out_right) begin
                 theta <= (1 << THETA_WIDTH-1) - theta;
             end else begin
                 hor <= next_hor;
