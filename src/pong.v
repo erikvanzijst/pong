@@ -38,22 +38,7 @@ module pong
     wire [15:0] paddle_1;
     wire [15:0] paddle_2;
 
-    // reg signed [1:0] prev;
-    wire signed [1:0] diff, player1_encoder, player2_encoder;
-    // wire up, down;
-
-    // assign diff = player1_encoder - prev;
-    // assign up = diff > 0;
-    // assign down = diff == -1;
-
-    // always @(posedge clk) begin
-    //     if (reset) begin
-    //         prev <= 1'b0;
-
-    //     end else begin
-    //         prev <= curr;
-    //     end
-    // end
+    wire signed [1:0] player1_encoder, player2_encoder;
 
     // A 1000Hz clock to driver the game:
     customclk #(.TOP(6000)) game_clk_mod(
@@ -141,7 +126,7 @@ module pong
         .reset(reset),
         .x(x),
         .y(y),
-        .lpaddle(16'hFFFF),
+        .lpaddle(paddle_1),
         .rpaddle(paddle_2),
         .rclk(RCLK),
         .rsdi(RSDI),
