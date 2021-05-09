@@ -28,10 +28,11 @@ module paddle (
 
     initial begin
         $readmemb("paddles.rom", rom);
+        ram <= 0;
     end
 
     always @(posedge clk) begin
-        if (reset) begin
+        if (reset || ram == 0) begin
             ram <= rom[0];
 
         end else begin

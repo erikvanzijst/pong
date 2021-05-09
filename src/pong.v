@@ -33,10 +33,10 @@ module pong
     wire game_clk;
     wire debounce_clk;
     wire signed [4:0] speed;
-    assign speed = 15;
+    assign speed = 11;
 
-    wire [15:0] paddle_l;
-    wire [15:0] paddle_r;
+    wire [15:0] paddle_1;
+    wire [15:0] paddle_2;
 
     // reg signed [1:0] prev;
     wire signed [1:0] diff, player1_encoder, player2_encoder;
@@ -110,26 +110,28 @@ module pong
         .value(player2_encoder)
     );
 
-    paddle paddle_1(
+    paddle paddlemod_1(
         .clk(clk),
         .reset(reset),
         .encoder_value(player1_encoder),
         .width(2'b1),
-        .paddle_o(paddle_l)
+        .paddle_o(paddle_1)
     );
 
-    paddle paddle_2(
+    paddle paddlemod_2(
         .clk(clk),
         .reset(reset),
         .encoder_value(player2_encoder),
         .width(2'b1),
-        .paddle_o(paddle_r)
+        .paddle_o(paddle_2)
     );
 
     ball ball0(
         .clk(game_clk),
         .reset(reset),
         .speed(speed),
+        .lpaddle(16'hFFFF),
+        .rpaddle(paddle_2),
         .x(x),
         .y(y)
     );
@@ -139,8 +141,8 @@ module pong
         .reset(reset),
         .x(x),
         .y(y),
-        .lpaddle(paddle_l),
-        .rpaddle(paddle_r),
+        .lpaddle(16'hFFFF),
+        .rpaddle(paddle_2),
         .rclk(RCLK),
         .rsdi(RSDI),
         .oeb(OEB),

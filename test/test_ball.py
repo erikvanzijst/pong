@@ -20,6 +20,55 @@ async def reset(dut):
 
 
 @cocotb.test()
+async def test_paddle_bounce(dut):
+
+    async def clear() -> None:
+        dut.speed = 1
+        await reset(dut)
+
+    async def step(speed: int, theta: int) -> None:
+        dut.speed = speed
+        dut.theta = theta
+        await ClockCycles(dut.clk, 1)
+        dut.speed = 0
+        await ClockCycles(dut.clk, 1)
+
+    clock = Clock(dut.clk, 83, units="ns")
+    cocotb.fork(clock.start())
+
+    dut.lpaddle <= 0xffff
+    dut.rpaddle <= 0xffff
+
+    await reset(dut)
+
+    dut.speed = 0
+    await ClockCycles(dut.clk, 2)
+    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.vert == 0x100000 and dut.y == 8)
+    assert(dut.moving_left)
+    assert(dut.moving_right == 0)
+
+    # Move left and right at speed 1:
+    await step(1, 0)
+    assert(dut.hor == 0x10007F and dut.x == 8)
+    assert(dut.vert == 0x100000 and dut.y == 8)
+
+    # After col 14 we should hit the left paddle and reverse direction:
+    dut.speed = 0
+    dut.theta = 0
+    dut.hor = 0x1DFFFF
+    await ClockCycles(dut.clk, 1)
+    assert(dut.x == 14)
+
+    await step(1, 0)
+
+    assert(dut.x == 14)
+    # assert(dut.theta == 32)
+    await ClockCycles(dut.clk, 2)
+
+
+
+# @cocotb.test()
 async def test_ball(dut):
 
     async def clear() -> None:
@@ -35,6 +84,9 @@ async def test_ball(dut):
 
     clock = Clock(dut.clk, 83, units="ns")
     cocotb.fork(clock.start())
+
+    dut.lpaddle <= 0xffff
+    dut.rpaddle <= 0xffff
 
     await reset(dut)
 
@@ -89,14 +141,14 @@ async def test_ball(dut):
     await clear()
 
 
-    # # At hor 11FFFF we should roll from col 8 to col 9:
-    # dut.speed = 0
-    # dut.theta = 0
-    # dut.hor = 0x11FFFF
-    # await ClockCycles(dut.clk, 1)
-    # assert(dut.x == 8)
-    # await step(1, 0)
-    # assert(dut.x == 9)
+    # At hor 11FFFF we should roll from col 8 to col 9:
+    dut.speed = 0
+    dut.theta = 0
+    dut.hor = 0x11FFFF
+    await ClockCycles(dut.clk, 1)
+    assert(dut.x == 8)
+    await step(1, 0)
+    assert(dut.x == 9)
 
     # # After col 15 we should wrap to col 0:
     # dut.speed = 0

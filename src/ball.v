@@ -8,6 +8,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     // the ball's current vector:
     input signed [4:0] speed,       // length of the direction vector (speed range: -16 to 15)
+    input wire [15:0] lpaddle,
+    input wire [15:0] rpaddle,
 
     output wire [3:0] x,
     output wire [3:0] y
@@ -34,12 +36,17 @@ module ball #(parameter integer THETA_WIDTH = 6)
     assign next_hor = hor + dx;
     assign next_vert = vert + dy;
 
-    wire [3:0] wrap_x;
-    assign wrap_x = (!next_hor[20:17] && x &&
-                        !(theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2])) ||    // left
-                    (next_hor[20:17] && !x &&
-                        (theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]));       // right
-    wire [3:0] wrap_y;
+    wire moving_left;
+    assign moving_left = !(theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]);
+    wire moving_right;
+    assign moving_right = (theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]);
+
+    wire paddle_hit;
+    assign paddle_hit =
+        (next_hor[20:17] == 4'hF && moving_left && (lpaddle & (1 << next_vert[20:17]))) ||
+        (next_hor[20:17] == 4'h0 && moving_right && (rpaddle & (1 << next_vert[20:17])));
+
+    wire wrap_y;
     assign wrap_y = (next_vert[20:17] && !y && theta[THETA_WIDTH-1]) ||     // top
                     (!next_vert[20:17] && y && !theta[THETA_WIDTH-1]);      // bottom
 
@@ -60,7 +67,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
             theta <= 0;
 
         end else begin
-            if (wrap_x) begin
+            if (paddle_hit) begin
                 theta <= (1 << THETA_WIDTH-1) - theta;
             end else begin
                 hor <= next_hor;
@@ -73,7 +80,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
             end
 
             // Introduce some gradual curving:
-            if (!wrap_x && ! wrap_y)
+            if (!paddle_hit && ! wrap_y)
                 theta <= rotation_clk ? theta + 1 : theta;
         end
     end

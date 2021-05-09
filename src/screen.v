@@ -59,11 +59,11 @@ module screen #(parameter integer TIMERWIDTH = 12)
                     // ball:
                     (corrected_row == y && x == col[3:0]) ||
 
-                    // left paddle:
-                    (col == 4'b0 && lpaddle[corrected_row]) ||
-
                     // right paddle:
-                    (col == 4'hF && rpaddle[corrected_row])
+                    (col == 4'b0 && rpaddle[corrected_row]) ||
+
+                    // left paddle:
+                    (col == 4'hF && lpaddle[corrected_row])
                     );
 
             end else begin

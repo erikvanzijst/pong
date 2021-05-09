@@ -1,18 +1,18 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Mon Apr 26 05:14:50 2021
+[*] Sun May  9 01:49:16 2021
 [*]
 [dumpfile] "/home/erik/work/pong/ball.vcd"
-[dumpfile_mtime] "Mon Apr 26 05:13:51 2021"
-[dumpfile_size] 3116
+[dumpfile_mtime] "Sun May  9 00:59:58 2021"
+[dumpfile_size] 2130
 [savefile] "/home/erik/work/pong/ball.gtkw"
 [timestart] 0
-[size] 2199 676
-[pos] -1 -1
-*-19.290199 2943000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[size] 1083 676
+[pos] -1098 335
+*-18.290199 581000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ball.
 [sst_width] 233
-[signals_width] 343
+[signals_width] 235
 [sst_expanded] 1
 [sst_vpaned_height] 172
 @28
@@ -24,14 +24,37 @@ ball.y[3:0]
 @200
 -
 @22
+ball.lpaddle[15:0]
+ball.rpaddle[15:0]
+@200
+-
+@22
 ball.speed[4:0]
 @24
 ball.theta[5:0]
 @200
 -
+@24
+ball.x[3:0]
+ball.y[3:0]
+@200
+-
 @28
 ball.sin_theta[7:0]
 ball.cos_theta[7:0]
+@200
+-
+@22
+ball.hor[20:0]
+ball.next_hor[20:0]
+ball.vert[20:0]
+ball.next_vert[20:0]
+@200
+-
+@28
+ball.moving_left
+ball.moving_right
+ball.paddle_hit
 @200
 -
 @420
@@ -40,11 +63,8 @@ ball.dx[20:0]
 ball.dy[20:0]
 @200
 -
-@23
-ball.horizontal[20:0]
-@22
-ball.vertical[20:0]
-@200
--
+@28
+ball.wrap_x
+ball.wrap_y
 [pattern_trace] 1
 [pattern_trace] 0
