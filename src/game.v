@@ -12,15 +12,17 @@ module game (
 
     // screen output:
     output wire [3:0] x,
-    output wire [3:0] y
+    output wire [3:0] y,
+
+    output reg [3:0] score_p1,
+    output reg [3:0] score_p2
 );
 
-    reg [3:0] score_p1, score_p2;
     reg signed [4:0] speed;
 
     // freeze countdown between games and when ball is out (max 16.846 seconds):
     reg [13:0] freeze;
-    reg ball_reset;    // should be a reg?
+    reg ball_reset;
 
     wire out_left, out_right;
 
@@ -59,6 +61,12 @@ module game (
             end else begin
                 // players can cut short the countdown:
                 freeze <= start ? 1 : freeze - 1;
+
+                // new game starts; reset scores:
+                if ((score_p1 == 9 || score_p2 == 9) && freeze == 1) begin
+                    score_p1 <= 0;
+                    score_p2 <= 0;
+                end
             end
 
             // reset ball to center position:

@@ -6,13 +6,23 @@ module pong
       parameter integer BALLSPEED = 20)
     (
     input wire clk,
-    input wire BTN1,
-    input wire BTN2,
+    input wire reset,
+    input wire start,
 
     input wire player1_a,
     input wire player1_b,
     input wire player2_a,
     input wire player2_b,
+
+    // 7-segment scoreboards:
+    output wire seg_a,
+    output wire seg_b,
+    output wire seg_c,
+    output wire seg_d,
+    output wire seg_e,
+    output wire seg_f,
+    output wire seg_g,
+    output wire cath,
 
     output wire RCLK,
     output wire RSDI,
@@ -22,14 +32,12 @@ module pong
     output wire LE
     );
 
-    wire reset, start;
-    assign reset = BTN1;
-    assign start = BTN2;
-
     wire player1_a_deb;
     wire player1_b_deb;
     wire player2_a_deb;
     wire player2_b_deb;
+
+    wire [3:0] score_p1, score_p2;
 
     wire [3:0] x, y;
     wire game_clk;
@@ -124,11 +132,31 @@ module pong
         // input:
         .lpaddle(paddle_1),
         .rpaddle(paddle_2),
-        .start(BTN2),
+        .start(start),
 
         // output:
         .x(x),
-        .y(y)
+        .y(y),
+        .score_p1(score_p1),
+        .score_p2(score_p2)
+    );
+
+    score score0(
+        .clk(game_clk),
+
+        // input:
+        .score_p1(score_p1),
+        .score_p2(score_p2),
+
+        // output:
+        .seg_a(seg_a),
+        .seg_b(seg_b),
+        .seg_c(seg_c),
+        .seg_d(seg_d),
+        .seg_e(seg_e),
+        .seg_f(seg_f),
+        .seg_g(seg_g),
+        .cath(cath)
     );
 
     screen #(.TIMERWIDTH(SCREENTIMERWIDTH)) screen0(
