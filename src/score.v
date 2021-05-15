@@ -3,6 +3,7 @@
 
 module score (
     input clk,
+    input reset,
 
     input [3:0] score_p1,
     input [3:0] score_p2,
@@ -34,12 +35,22 @@ module score (
     assign dout = clk_toggle ? dout_p2 : dout_p1;
     assign cath = clk_toggle;
 
-    always @(posedge clk) begin
-        // Divide the incoming clk to ensure we get a 50% duty cycle, even if
-        // the incoming clk doesn't have that:
-        clk_toggle <= ~clk_toggle;
+    initial begin
+        clk_toggle <= 0;
+    end
 
-        blinker <= blinker + 1;
+    always @(posedge clk) begin
+        if (reset) begin
+            clk_toggle <= 0;
+            blinker <= 0;
+
+        end else begin
+            // Divide the incoming clk to ensure we get a 50% duty cycle, even if
+            // the incoming clk doesn't have that:
+            clk_toggle <= ~clk_toggle;
+
+            blinker <= blinker + 1;
+        end
     end
 
     function [6:0] seven_seg (input [3:0] din);

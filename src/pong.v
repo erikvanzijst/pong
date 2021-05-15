@@ -3,7 +3,8 @@
 
 module pong
     #(parameter integer SCREENTIMERWIDTH = 10,
-      parameter integer BALLSPEED = 20)
+      parameter integer BALLSPEED = 20,
+      parameter integer GAMECLK = 6000)
     (
     input wire clk,
     input wire reset,
@@ -51,7 +52,7 @@ module pong
     wire signed [1:0] player1_encoder, player2_encoder;
 
     // A 1000Hz clock to driver the game:
-    customclk #(.TOP(6000)) game_clk_mod(
+    customclk #(.TOP(GAMECLK)) game_clk_mod(
         .clk(clk),
         .clkout(game_clk)
     );
@@ -143,6 +144,7 @@ module pong
 
     score score0(
         .clk(game_clk),
+        .reset(reset),
 
         // input:
         .score_p1(score_p1),
