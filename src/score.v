@@ -22,7 +22,7 @@ module score (
     reg [9:0] blinker;
 
     wire [6:0] dout;
-    assign dout = {seg_g, seg_f, seg_e, seg_d, seg_c, seg_b, seg_a};
+    assign {seg_g, seg_f, seg_e, seg_d, seg_c, seg_b, seg_a} = dout;
     wire [6:0] dout_p1, dout_p2;
 
     // Blink the scores when the game is over:
@@ -37,6 +37,7 @@ module score (
 
     initial begin
         clk_toggle <= 0;
+        blinker <= 0;
     end
 
     always @(posedge clk) begin
