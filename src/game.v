@@ -85,7 +85,7 @@ module game (
         .x(x),
         .y(y),
         .out_left(out_left),
-        .out_right(out_right),
+        .out_right(out_right)
     );
 
 endmodule
