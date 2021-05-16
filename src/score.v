@@ -68,12 +68,7 @@ module score (
 			4'h9: seven_seg = 7'b 1101111;
 
             // unused:
-			4'hA: seven_seg = 7'b 1110111;
-			4'hB: seven_seg = 7'b 1111100;
-			4'hC: seven_seg = 7'b 0111001;
-			4'hD: seven_seg = 7'b 1011110;
-			4'hE: seven_seg = 7'b 1111001;
-			4'hF: seven_seg = 7'b 1110001;
+			default: seven_seg = 7'b 0000000;
 		endcase
     endfunction
 
