@@ -21,11 +21,11 @@ test_pong:
 	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v src/debounce.v src/rot_encoder.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
-test_math:
+test_trig:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/mathsim.vvp -s sin -s dump src/math.v test/dump_math.v
-	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_math vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/mathsim.vvp
+	iverilog -o sim_build/trigsim.vvp -s trig -s dump src/trig.v test/dump_trig.v
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_trig vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/trigsim.vvp
 
 test_ball:
 	rm -rf sim_build/

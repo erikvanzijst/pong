@@ -18,7 +18,7 @@ jobs:
 
       - name: Run cocotb test simulations
         run: |
-          make test_ball test_math test_pong test_debounce test_encoder
+          make test_ball test_trig test_pong test_debounce test_encoder
 
       - name: Lint
         run: make lint

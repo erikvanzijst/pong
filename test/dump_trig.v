@@ -1,7 +1,7 @@
 module dump();
     initial begin
-        $dumpfile ("math.vcd");
-        $dumpvars (0, sin);
+        $dumpfile ("trig.vcd");
+        $dumpvars (0, trig);
         #1;
     end
 endmodule

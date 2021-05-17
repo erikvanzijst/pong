@@ -56,8 +56,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
     assign wrap_y = (next_vert[20:17] && !y && theta[THETA_WIDTH-1]) ||     // top
                     (!next_vert[20:17] && y && !theta[THETA_WIDTH-1]);      // bottom
 
-    sin #(.THETA_WIDTH(THETA_WIDTH)) sinlut (.CLK(clk), .theta_i(theta), .sin_o(sin_theta));
-    cos #(.THETA_WIDTH(THETA_WIDTH)) coslut (.CLK(clk), .theta_i(theta), .cos_o(cos_theta));
+    trig trig0 (.CLK(clk), .theta_i(theta), .sin_o(sin_theta), .cos_o(cos_theta));
 
     // Temporary hardwired rotation:
     wire rotation_clk;
