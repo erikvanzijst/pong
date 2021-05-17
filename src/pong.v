@@ -110,7 +110,7 @@ module pong
         .clk(clk),
         .reset(reset),
         .encoder_value(player1_encoder),
-        .width(2'b1),
+        .width(1'b1),
         .paddle_o(paddle_1)
     );
 
@@ -120,7 +120,7 @@ module pong
 
         // input:
         .encoder_value(player2_encoder),
-        .width(2'b1),
+        .width(1'b1),
 
         // output:
         .paddle_o(paddle_2)
