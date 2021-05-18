@@ -11,11 +11,11 @@ module paddle (
     output wire[15:0] paddle_o
 );
 
-    reg [32*2-1:0] ram [0:0];
+    reg [24*2-1:0] ram [0:0];
 
     wire [15:0] paddles [1:0];
-    assign paddles[0] = ram[0][32*2-1-8:32+8];
-    assign paddles[1] = ram[0][31-8:8];
+    assign paddles[0] = ram[0][24*2-1-4:24+4];
+    assign paddles[1] = ram[0][23-4:4];
 
     assign paddle_o = paddles[width];
 
@@ -31,10 +31,10 @@ module paddle (
         prev <= encoder_value;
 
         if (diff == 1 && !paddle_o[0]) begin
-            ram[0] <= {ram[0][0], ram[0][32*2-1:1]};
+            ram[0] <= {ram[0][0], ram[0][24*2-1:1]};
 
         end else if (diff == -1 && !paddle_o[15]) begin
-            ram[0] <= {ram[0][32*2-2:0], ram[0][32*2-1]};
+            ram[0] <= {ram[0][24*2-2:0], ram[0][24*2-1]};
         end
     end
 

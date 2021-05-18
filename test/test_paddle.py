@@ -1,7 +1,6 @@
 import cocotb
 from cocotb.clock import Clock
-from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
-import random
+from cocotb.triggers import ClockCycles
 
 
 async def reset(dut):
@@ -18,38 +17,29 @@ async def test_paddle(dut):
     cocotb.fork(clock.start())
 
     dut.width <= 0
-    dut.up <= 0
-    dut.down <= 0
+    dut.encoder_value <= 0
     await reset(dut)
 
     await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0011111111111100)
+    assert(dut.paddle_o == 0b0000001111000000)
 
     dut.width <= 1
     await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0000111111110000)
+    assert(dut.paddle_o == 0b0000000111000000)
 
-    dut.width <= 2
+    dut.width <= 0
     await ClockCycles(dut.clk, 2)
     assert(dut.paddle_o == 0b0000001111000000)
 
-    dut.width <= 3
-    await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0000000110000000)
-
 
 async def up(dut, clk: Clock):
-    dut.up <= 1
-    await ClockCycles(dut.clk, 1)
-    dut.up <= 0
-    await ClockCycles(dut.clk, 1)
+    dut.encoder_value <= dut.encoder_value.value + 1
+    await ClockCycles(dut.clk, 2)
 
 
 async def down(dut, clk: Clock):
-    dut.down <= 1
-    await ClockCycles(dut.clk, 1)
-    dut.down <= 0
-    await ClockCycles(dut.clk, 1)
+    dut.encoder_value <= dut.encoder_value.value - 1
+    await ClockCycles(dut.clk, 2)
 
 
 @cocotb.test()
@@ -58,29 +48,28 @@ async def test_paddle_move(dut):
     cocotb.fork(clock.start())
 
     dut.width <= 0
-    dut.up <= 0
-    dut.down <= 0
+    dut.encoder_value <= 0
     await reset(dut)
 
     await up(dut, clock)
-    assert(dut.paddle_o == 0b0001111111111110)
+    assert(dut.paddle_o == 0b0000000111100000)
     await ClockCycles(dut.clk, 2)
 
     await up(dut, clock)
-    assert(dut.paddle_o == 0b0000111111111111)
+    assert(dut.paddle_o == 0b0000000011110000)
     await ClockCycles(dut.clk, 2)
 
     # Move the other way
     await down(dut, clock)
-    assert(dut.paddle_o == 0b0001111111111110)
+    assert(dut.paddle_o == 0b0000000111100000)
     await ClockCycles(dut.clk, 2)
 
     await down(dut, clock)
-    assert(dut.paddle_o == 0b0011111111111100)
+    assert(dut.paddle_o == 0b0000001111000000)
     await ClockCycles(dut.clk, 2)
 
     await down(dut, clock)
-    assert(dut.paddle_o == 0b0111111111111000)
+    assert(dut.paddle_o == 0b0000011110000000)
     await ClockCycles(dut.clk, 2)
 
 
@@ -90,32 +79,26 @@ async def test_paddle_shrink(dut):
     cocotb.fork(clock.start())
 
     dut.width <= 0
-    dut.up <= 0
-    dut.down <= 0
+    dut.encoder_value <= 0
     await reset(dut)
 
     await up(dut, clock)
-    assert(dut.paddle_o == 0b0001111111111110)
+    assert(dut.paddle_o == 0b0000000111100000)
 
     dut.width <= 1
     await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0000011111111000)
-    await ClockCycles(dut.clk, 2)
-
-    dut.width <= 2
-    await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0000000111100000)
+    assert(dut.paddle_o == 0b0000000011100000)
     await ClockCycles(dut.clk, 2)
 
     # move all the way to the side:
     for i in range(5):
         await up(dut, clock)
-    assert(dut.paddle_o == 0b0000000000001111)
+    assert(dut.paddle_o == 0b0000000000000111)
 
     # now grow again:
     dut.width <= 0
     await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0000000011111111)
+    assert(dut.paddle_o == 0b0000000000001111)
 
 
 @cocotb.test()
@@ -123,25 +106,18 @@ async def test_paddle_stop_at_wall(dut):
     clock = Clock(dut.clk, 83, units="ns")
     cocotb.fork(clock.start())
 
-    dut.width <= 1
-    dut.up <= 0
-    dut.down <= 0
-    await reset(dut)
+    dut.width <= 0
 
-    assert(dut.paddle_o == 0b0000111111110000)
+    await ClockCycles(dut.clk, 2)
+    # where the previous test left the paddle:
+    assert(dut.paddle_o == 0b0000000000001111)
+
+    # move one step back:
+    await down(dut, clock)
+    assert(dut.paddle_o == 0b0000000000011110)
+
 
     # move all the way to the side:
     for i in range(4):
         await up(dut, clock)
-    assert(dut.paddle_o == 0b0000000011111111)
-
-    # Should not move any further:
-    await up(dut, clock)
-    assert(dut.paddle_o == 0b0000000011111111)
-
-    # Grow paddle and move back:
-    dut.width <= 0
-    await ClockCycles(dut.clk, 2)
-    assert(dut.paddle_o == 0b0000001111111111)
-    await down(dut, clock)
-    assert(dut.paddle_o == 0b0000011111111111)
+    assert(dut.paddle_o == 0b0000000000001111)
