@@ -1,7 +1,7 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
-module ball #(parameter integer THETA_WIDTH = 5)
+module ball #(parameter integer THETA_WIDTH = 6)
     (
     input wire clk, // should be 2000Hz for optimally playable speed
     input wire reset,
@@ -60,7 +60,7 @@ module ball #(parameter integer THETA_WIDTH = 5)
 
     // Temporary hardwired rotation:
     wire rotation_clk;
-    customclk #(.TOP(1000)) rotator(.clk(clk), .clkout(rotation_clk));
+    customclk #(.TOP(500)) rotator(.clk(clk), .clkout(rotation_clk));
 
     always @(posedge clk) begin
         if (reset) begin

@@ -7,29 +7,29 @@
  */
 module trig
     (input wire CLK,
-     input wire [4:0] theta_i,
+     input wire [5:0] theta_i,
      output wire [7:0] sin_o,
      output wire [7:0] cos_o
      );
 
-    reg [7:0] rom [8:0];
-    wire [7:0] sinlut [31:0];
-    wire [7:0] coslut [31:0];
+    reg [7:0] rom [16:0];
+    wire [7:0] sinlut [63:0];
+    wire [7:0] coslut [63:0];
 
     genvar i;
     generate
-        for (i=0; i<8; i=i+1) begin
+        for (i=0; i<16; i=i+1) begin
             assign sinlut[i]    =  rom[i];
-            assign sinlut[15-i] =  rom[i+1];
-            assign sinlut[16+i] = ~rom[i];
-            assign sinlut[31-i] = ~rom[i+1];
+            assign sinlut[31-i] =  rom[i+1];
+            assign sinlut[32+i] = ~rom[i];
+            assign sinlut[63-i] = ~rom[i+1];
         end
     endgenerate
 
     genvar j;
     generate
-        for (j=0; j<32; j=j+1) begin
-            assign coslut[j] = sinlut[(j+32+8) % 32];
+        for (j=0; j<64; j=j+1) begin
+            assign coslut[j] = sinlut[(j+80) % 64];
         end
     endgenerate
 

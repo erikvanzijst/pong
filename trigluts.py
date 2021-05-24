@@ -4,10 +4,10 @@
 
 from math import radians, sin
 
-step = radians(360) / 32
+step = radians(360) / 64
 
 with open('sine.lut', 'w') as f_sin:
-    for i in range(8+1):
+    for i in range(16+1):
         angle = i * step
 
         f_sin.write(bin(int(sin(angle)*127) & 0b11111111)[2:].rjust(8, '0'))
