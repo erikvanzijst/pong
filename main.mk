@@ -1,5 +1,5 @@
 
-all: $(PROJ).rpt $(PROJ).bin
+all: test_trig test_paddle test_debounce test_encoder
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top pong -blif $@' $< $(ADD_SRC)

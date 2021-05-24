@@ -29,6 +29,5 @@ async def test_trig(dut):
     for i, (sin_val, cos_val) in enumerate(zip(sin_expected, cos_expected)):
         dut.theta_i = i
         await ClockCycles(dut.CLK, 1)
-        print(f"{i<3}: expected: {sin_val:>4} {bin(sin_val)[2:].rjust(8, '0')} result: {dut.sin_o.value}")
-        assert twos_comp(int(dut.sin_o), 8) == sin_val, "sin_o  result not equal to expected value: %d" % sin_val
+        assert twos_comp(int(dut.sin_o), 8) == sin_val, "sin_o result not equal to expected value: %d" % sin_val
         assert twos_comp(int(dut.cos_o), 8) == cos_val, "cos_o result not equal to expected value: %d" % cos_val
