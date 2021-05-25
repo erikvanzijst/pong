@@ -33,6 +33,8 @@ module pong
     output wire LE
     );
 
+    reg [4:0] entropy;
+
     wire player1_a_deb;
     wire player1_b_deb;
     wire player2_a_deb;
@@ -50,6 +52,12 @@ module pong
     wire [15:0] paddle_2;
 
     wire signed [1:0] player1_encoder, player2_encoder;
+
+    rnd random(
+        .clk(game_clk),
+        .reset(reset),
+        .q(entropy)
+    );
 
     // A 1000Hz clock to driver the game:
     customclk #(.TOP(GAMECLK)) game_clk_mod(
@@ -129,6 +137,7 @@ module pong
     game game0(
         .game_clk(game_clk),
         .reset(reset),
+        .entropy(entropy),
 
         // input:
         .lpaddle(paddle_1),

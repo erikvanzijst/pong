@@ -9,6 +9,7 @@ module game (
     input wire [15:0] rpaddle,
 
     input wire start,   // debounced start button
+    input [4:0] entropy,
 
     // screen output:
     output wire [3:0] x,
@@ -77,6 +78,7 @@ module game (
     ball ball0(
         .clk(game_clk),
         .reset(ball_reset),
+        .entropy(entropy),
 
         .speed(speed),
         .lpaddle(lpaddle),

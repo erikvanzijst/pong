@@ -55,21 +55,21 @@ module score (
     end
 
     function [6:0] seven_seg (input [3:0] din);
-		case (din)
-			4'h0: seven_seg = 7'b 0111111;
-			4'h1: seven_seg = 7'b 0000110;
-			4'h2: seven_seg = 7'b 1011011;
-			4'h3: seven_seg = 7'b 1001111;
-			4'h4: seven_seg = 7'b 1100110;
-			4'h5: seven_seg = 7'b 1101101;
-			4'h6: seven_seg = 7'b 1111101;
-			4'h7: seven_seg = 7'b 0000111;
-			4'h8: seven_seg = 7'b 1111111;
-			4'h9: seven_seg = 7'b 1101111;
+        case (din)
+            4'h0: seven_seg = 7'b 0111111;
+            4'h1: seven_seg = 7'b 0000110;
+            4'h2: seven_seg = 7'b 1011011;
+            4'h3: seven_seg = 7'b 1001111;
+            4'h4: seven_seg = 7'b 1100110;
+            4'h5: seven_seg = 7'b 1101101;
+            4'h6: seven_seg = 7'b 1111101;
+            4'h7: seven_seg = 7'b 0000111;
+            4'h8: seven_seg = 7'b 1111111;
+            4'h9: seven_seg = 7'b 1101111;
 
             // unused:
-			default: seven_seg = 7'b 0000000;
-		endcase
+            default: seven_seg = 7'b 1000000;
+        endcase
     endfunction
 
 endmodule

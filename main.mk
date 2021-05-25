@@ -1,5 +1,5 @@
 
-all: test_trig test_paddle test_debounce test_encoder
+all: test_trig test_paddle test_debounce test_encoder test_rnd
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top pong -blif $@' $< $(ADD_SRC)
@@ -27,10 +27,16 @@ test_trig:
 	iverilog -o sim_build/trigsim.vvp -s trig -s dump src/trig.v test/dump_trig.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_trig vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/trigsim.vvp
 
+test_rnd:
+	rm -rf sim_build/
+	mkdir sim_build/
+	iverilog -o sim_build/rndsim.vvp -s rnd -s dump src/rnd.v test/dump_rnd.v
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_rnd vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/rndsim.vvp
+
 test_ball:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  src/clkdiv.v src/ball.v src/math.v test/dump_ball.v
+	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  src/clkdiv.v src/ball.v src/trig.v test/dump_ball.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_ball vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/ballsim.vvp
 
 test_paddle:

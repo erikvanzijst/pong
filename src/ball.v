@@ -5,6 +5,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
     (
     input wire clk, // should be 2000Hz for optimally playable speed
     input wire reset,
+    input [4:0] entropy,
 
     // the ball's current vector:
     input signed [4:0] speed,       // length of the direction vector (speed range: -16 to 15)
@@ -68,9 +69,13 @@ module ball #(parameter integer THETA_WIDTH = 6)
             hor <= 8 << 17;
             vert <= 8 << 17;
 
-            // TODO: get start angle from input entropy
-            // start off in hor direction:
-            theta <= 0;
+            // start off in a random direction:
+            case (entropy[4:3])
+                2'b00: theta <= {3'b000, entropy[2:0]};
+                2'b01: theta <= {3'b011, entropy[2:0]};
+                2'b10: theta <= {3'b100, entropy[2:0]};
+                2'b11: theta <= {3'b111, entropy[2:0]};
+            endcase
 
         end else begin
             if (paddle_hit || out_left || out_right) begin
