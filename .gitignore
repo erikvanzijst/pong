@@ -9,3 +9,4 @@ results.xml*.asc
 *.rpt
 results.xml
 *.asc
+.idea/

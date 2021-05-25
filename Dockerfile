@@ -1,3 +1,5 @@
+# Container used to run tests and build iCE40 bitstream in CI
+
 FROM ubuntu:20.04
 
 LABEL description="Container for synthesizing FPGA and ASIC designs"
