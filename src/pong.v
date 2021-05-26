@@ -33,7 +33,7 @@ module pong
     output wire LE
     );
 
-    reg [4:0] entropy;
+    wire [4:0] entropy;
 
     wire player1_a_deb;
     wire player1_b_deb;
