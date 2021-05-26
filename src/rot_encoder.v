@@ -29,10 +29,10 @@ module rot_encoder(
             case ({a,old_a,b,old_b})
 
                 4'b1000: value <= value + 1;
-                // 4'b0111: value <= value + 1;
+                4'b0111: value <= value + 1;
 
                 4'b0010: value <= value - 1;
-                // 4'b1101: value <= value - 1;
+                4'b1101: value <= value - 1;
 
                 default: value <= value;
             endcase

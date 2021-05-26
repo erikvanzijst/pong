@@ -44,7 +44,6 @@ module pong
 
     wire [3:0] x, y;
     wire game_clk;
-    wire debounce_clk;
     wire signed [4:0] speed;
     assign speed = 11;
 
@@ -65,34 +64,29 @@ module pong
         .clkout(game_clk)
     );
 
-    customclk #(.TOP(7)) debounce_clk_mod(
-        .clk(clk),
-        .clkout(debounce_clk)
-    );
-
-    debounce #(.HIST_LEN(9)) debounce_1a (
+    debounce #(.HIST_LEN(16)) debounce_1a (
         .clk(clk),
         .reset(reset),
         .button(player1_a),
         .debounced(player1_a_deb)
     );
 
-    debounce #(.HIST_LEN(9)) debounce_1b (
-        .clk(debounce_clk),
+    debounce #(.HIST_LEN(16)) debounce_1b (
+        .clk(clk),
         .reset(reset),
         .button(player1_b),
         .debounced(player1_b_deb)
     );
 
-    debounce #(.HIST_LEN(9)) debounce_2a (
-        .clk(debounce_clk),
+    debounce #(.HIST_LEN(16)) debounce_2a (
+        .clk(clk),
         .reset(reset),
         .button(player2_a),
         .debounced(player2_a_deb)
     );
 
-    debounce #(.HIST_LEN(9)) debounce_2b (
-        .clk(debounce_clk),
+    debounce #(.HIST_LEN(16)) debounce_2b (
+        .clk(clk),
         .reset(reset),
         .button(player2_b),
         .debounced(player2_b_deb)
