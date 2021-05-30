@@ -12,8 +12,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
     input wire [15:0] lpaddle,
     input wire [15:0] rpaddle,
 
-    output wire [3:0] x,
-    output wire [3:0] y,
+    output reg [3:0] x,
+    output reg [3:0] y,
 
     output out_left,    // ball reached far-left edge
     output out_right    // ball reached far-right edge
@@ -23,9 +23,6 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     reg [20:0] hor;     // 4 high bits is x pos on screen
     reg [20:0] vert;    // 4 high bits is y pos on screen
-
-    assign x = hor[20:17];
-    assign y = vert[20:17];
 
     wire signed [7:0] sin_theta;
     wire signed [7:0] cos_theta;
@@ -93,6 +90,9 @@ module ball #(parameter integer THETA_WIDTH = 6)
             // Introduce some gradual curving:
             if (!paddle_hit && ! wrap_y)
                 theta <= rotation_clk ? theta + 1 : theta;
+
+            x <= hor[20:17];
+            y <= vert[20:17];
         end
     end
 

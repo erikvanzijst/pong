@@ -1,6 +1,10 @@
 # 12 MHz clock
 set_io -nowarn clk        35
 
+# 31.5 MHz VGA clock
+set_frequency clk12mhz 12
+set_frequency clk32mhz 31.5
+
 # RS232
 set_io -nowarn RX          6
 set_io -nowarn TX          9
@@ -32,6 +36,16 @@ set_io -nowarn P1A7        3
 set_io -nowarn P1A8       48
 set_io -nowarn P1A9       46
 set_io -nowarn P1A10      44
+
+# PMOD 1A - VGA out
+set_io -nowarn hsync       47
+set_io -nowarn vsync       45
+set_io -nowarn rrggbb[5]          3
+set_io -nowarn rrggbb[4]          48
+set_io -nowarn rrggbb[3]          46
+set_io -nowarn rrggbb[2]          44
+set_io -nowarn rrggbb[1]          4
+set_io -nowarn rrggbb[0]          2
 
 # PMOD 1A - Rotary encoders
 set_io -nowarn player1_a        4

@@ -2,14 +2,14 @@
 all: test_trig test_paddle test_debounce test_encoder test_rnd
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
-	yosys -ql $*.log -p 'synth_ice40 -top pong -blif $@' $< $(ADD_SRC)
+	yosys -ql $*.log -p 'synth_ice40 -top fpga -blif $@' $< $(ADD_SRC)
 
 %.json: src/%.v $(ADD_SRC) $(ADD_DEPS)
-	yosys -ql $*.log -p 'synth_ice40 -top pong -json $@' $< $(ADD_SRC)
+	yosys -ql $*.log -DSYNTH -p 'synth_ice40 -top fpga -json $@' $< $(ADD_SRC)
 
 ifeq ($(USE_ARACHNEPNR),)
 %.asc: $(PIN_DEF) %.json
-	nextpnr-ice40 --$(DEVICE) --json $(filter-out $<,$^) --pcf $< --asc $@
+	nextpnr-ice40 --$(DEVICE) --freq $(FREQ) --json $(filter-out $<,$^) --pcf $< --asc $@
 else
 %.asc: $(PIN_DEF) %.blif
 	arachne-pnr -d $(subst up,,$(subst hx,,$(subst lp,,$(DEVICE)))) -o $@ -p $^

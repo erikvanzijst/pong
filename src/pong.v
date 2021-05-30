@@ -6,6 +6,8 @@ module pong
       parameter integer BALLSPEED = 20,
       parameter integer GAMECLK = 6000)
     (
+    input wire clk12mhz,
+    input wire clk32mhz,
     input wire clk,
     input wire reset,
     input wire start,
@@ -25,12 +27,18 @@ module pong
     output wire seg_g,
     output wire cath,
 
+    // Dot-matrix display out:
     output wire RCLK,
     output wire RSDI,
     output wire OEB,
     output wire CSDI,
     output wire CCLK,
-    output wire LE
+    output wire LE,
+
+    // VGA out:
+    output wire hsync,
+    output wire vsync,
+    output wire [5:0] rrggbb
     );
 
     wire [4:0] entropy;
@@ -42,13 +50,13 @@ module pong
 
     wire [3:0] score_p1, score_p2;
 
-    wire [3:0] x, y;
+    reg [3:0] x, y;
     wire game_clk;
     wire signed [4:0] speed;
     assign speed = 11;
 
-    wire [15:0] paddle_1;
-    wire [15:0] paddle_2;
+    reg [15:0] paddle_1;
+    reg [15:0] paddle_2;
 
     wire signed [1:0] player1_encoder, player2_encoder;
 
@@ -60,40 +68,40 @@ module pong
 
     // A 1000Hz clock to driver the game:
     customclk #(.TOP(GAMECLK)) game_clk_mod(
-        .clk(clk),
+        .clk(clk12mhz),
         .clkout(game_clk)
     );
 
     debounce #(.HIST_LEN(16)) debounce_1a (
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .button(player1_a),
         .debounced(player1_a_deb)
     );
 
     debounce #(.HIST_LEN(16)) debounce_1b (
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .button(player1_b),
         .debounced(player1_b_deb)
     );
 
     debounce #(.HIST_LEN(16)) debounce_2a (
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .button(player2_a),
         .debounced(player2_a_deb)
     );
 
     debounce #(.HIST_LEN(16)) debounce_2b (
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .button(player2_b),
         .debounced(player2_b_deb)
     );
 
     rot_encoder encoder_1(
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .a(player1_a_deb),
         .b(player1_b_deb),
@@ -101,7 +109,7 @@ module pong
     );
 
     rot_encoder encoder_2(
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .a(player2_a_deb),
         .b(player2_b_deb),
@@ -109,7 +117,7 @@ module pong
     );
 
     paddle paddlemod_1(
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .encoder_value(player1_encoder),
         .width(1'b0),
@@ -117,7 +125,7 @@ module pong
     );
 
     paddle paddlemod_2(
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
 
         // input:
@@ -134,8 +142,8 @@ module pong
         .entropy(entropy),
 
         // input:
-        .lpaddle(paddle_1),
-        .rpaddle(paddle_2),
+        .lpaddle(16'hffff),
+        .rpaddle(16'hffff),
         .start(start),
 
         // output:
@@ -165,7 +173,7 @@ module pong
     );
 
     screen #(.TIMERWIDTH(SCREENTIMERWIDTH)) screen0(
-        .clk(clk),
+        .clk(clk12mhz),
         .reset(reset),
         .x(x),
         .y(y),
@@ -177,6 +185,19 @@ module pong
         .csdi(CSDI),
         .cclk(CCLK),
         .le(LE)
+    );
+
+    vga vga0(
+        .clk(clk32mhz),
+        .reset(reset),
+        .ball_x(x),
+        .ball_y(y),
+        .lpaddle(paddle_1),
+        .rpaddle(paddle_2),
+
+        .hsync(hsync),
+        .vsync(vsync),
+        .rrggbb(rrggbb)
     );
 
 endmodule
