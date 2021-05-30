@@ -38,34 +38,34 @@ async def test_paddle_bounce(dut):
 
     dut.lpaddle <= 0xffff
     dut.rpaddle <= 0xffff
+    dut.entropy <= 0
 
     await reset(dut)
 
     dut.speed = 0
     await ClockCycles(dut.clk, 2)
-    assert(dut.hor == 0x100000 and dut.x == 8)
-    assert(dut.vert == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 0x80)
+    assert(dut.vert == 0x100000 and dut.y == 0x80)
     assert(dut.moving_left)
     assert(dut.moving_right == 0)
 
     # Move left and right at speed 1:
     await step(1, 0)
-    assert(dut.hor == 0x10007F and dut.x == 8)
-    assert(dut.vert == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x10007F and dut.x == 0x80)
+    assert(dut.vert == 0x100000 and dut.y == 0x80)
 
     # After col 14 we should hit the left paddle and reverse direction:
     dut.speed = 0
     dut.theta = 0
     dut.hor = 0x1DFFFF
     await ClockCycles(dut.clk, 1)
-    assert(dut.x == 14)
+    assert(dut.x == 0xef)
 
     await step(1, 0)
 
-    assert(dut.x == 14)
-    # assert(dut.theta == 32)
+    assert(dut.x == 0xef)
+    assert(dut.theta == 32)
     await ClockCycles(dut.clk, 2)
-
 
 
 # @cocotb.test()
@@ -87,36 +87,34 @@ async def test_ball(dut):
 
     dut.lpaddle <= 0xffff
     dut.rpaddle <= 0xffff
+    dut.entropy <= 0
 
     await reset(dut)
 
     dut.speed = 0
     await ClockCycles(dut.clk, 2)
-    assert(dut.hor == 0x100000 and dut.x == 8)
-    assert(dut.vert == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 0x80)
+    assert(dut.vert == 0x100000 and dut.y == 0x80)
 
     # Move left and right at speed 1:
     await step(1, 0)
-    assert(dut.hor == 0x10007F and dut.x == 8)
-    assert(dut.vert == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x10007F and dut.x == 0x80)
+    assert(dut.vert == 0x100000 and dut.y == 0x80)
 
     # turn around 180 degrees:
     await step(1, 32)
-    assert(dut.hor == 0x100000 and dut.x == 8)
-    assert(dut.vert
-     == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 0x80)
+    assert(dut.vert == 0x100000 and dut.y == 0x80)
     await clear()
-
 
     # Move down and up at speed 1:
     await step(1, 16)
-    assert(dut.hor == 0x100000 and dut.x == 8)
-    assert(dut.vert
-     == 0x10007F and dut.y == 8)
+    assert(dut.hor == 0x100000 and dut.x == 0x80)
+    assert(dut.vert == 0x10007F and dut.y == 8)
 
     # turn around 180 degrees and move up:
     await step(1, 48)
-    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.hor == 0x100000 and dut.x == 0x80)
     assert(dut.vert
      == 0x100000 and dut.y == 8)
     await clear()
@@ -128,7 +126,7 @@ async def test_ball(dut):
     assert(dut.vert
      == 0x0FFFA7 and dut.y == 7)
     await step(1, 8)
-    assert(dut.hor == 0x100000 and dut.x == 8)
+    assert(dut.hor == 0x100000 and dut.x == 0x80)
     assert(dut.vert
      == 0x100000 and dut.y == 8)
     await clear()
@@ -136,8 +134,8 @@ async def test_ball(dut):
 
     # Move at max forward speed (15)
     await step(15, 0)
-    assert(dut.hor == 0x100771 and dut.x == 8)
-    assert(dut.vert == 0x100000 and dut.y == 8)
+    assert(dut.hor == 0x100771 and dut.x == 0x80)
+    assert(dut.vert == 0x100000 and dut.y == 0x80)
     await clear()
 
 
@@ -146,9 +144,9 @@ async def test_ball(dut):
     dut.theta = 0
     dut.hor = 0x11FFFF
     await ClockCycles(dut.clk, 1)
-    assert(dut.x == 8)
+    assert(dut.x == 0x80)
     await step(1, 0)
-    assert(dut.x == 9)
+    assert(dut.x == 0x90)
 
     # # After col 15 we should wrap to col 0:
     # dut.speed = 0
