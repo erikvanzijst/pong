@@ -57,13 +57,13 @@ module screen #(parameter integer TIMERWIDTH = 12)
 
                 csdi <= (col>>4 == 0) && (
                     // ball:
-                    (corrected_row == y && x == col[3:0]) ||
+                    (corrected_row == y && x == 4'hf - col[3:0]) ||
 
                     // right paddle:
-                    (col == 4'b0 && rpaddle[corrected_row]) ||
+                    (col == 4'hf && rpaddle[corrected_row]) ||
 
                     // left paddle:
-                    (col == 4'hF && lpaddle[corrected_row])
+                    (col == 4'h0 && lpaddle[corrected_row])
                     );
 
             end else begin
