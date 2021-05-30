@@ -47,12 +47,6 @@ set_io -nowarn rrggbb[2]          44
 set_io -nowarn rrggbb[1]          4
 set_io -nowarn rrggbb[0]          2
 
-# PMOD 1A - Rotary encoders
-set_io -nowarn player1_a        4
-set_io -nowarn player1_b        2
-set_io -nowarn player2_a       47
-set_io -nowarn player2_b       45
-
 # PMOD 1B
 set_io -nowarn P1B1       43
 set_io -nowarn P1B2       38
@@ -62,6 +56,12 @@ set_io -nowarn P1B7       42
 set_io -nowarn P1B8       36
 set_io -nowarn P1B9       32
 set_io -nowarn P1B10      28
+
+# PMOD 2 - Rotary encoders
+set_io -nowarn player1_a       27
+set_io -nowarn player1_b       25
+set_io -nowarn player2_a       21
+set_io -nowarn player2_b       19
 
 # PMOD 2
 set_io -nowarn P2_1       27

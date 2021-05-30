@@ -6,21 +6,21 @@ module fpga (
     input wire reset,
     input wire start,
 
-//  Not enough pins on the iCEBreaker :-/
-//    input wire player1_a,
-//    input wire player1_b,
-//    input wire player2_a,
-//    input wire player2_b,
+    input wire player1_a,
+    input wire player1_b,
+    input wire player2_a,
+    input wire player2_b,
 
+//  Not enough pins on the iCEBreaker :-/
     // 7-segment scoreboards:
-    output wire seg_a,
-    output wire seg_b,
-    output wire seg_c,
-    output wire seg_d,
-    output wire seg_e,
-    output wire seg_f,
-    output wire seg_g,
-    output wire cath,
+//    output wire seg_a,
+//    output wire seg_b,
+//    output wire seg_c,
+//    output wire seg_d,
+//    output wire seg_e,
+//    output wire seg_f,
+//    output wire seg_g,
+//    output wire cath,
 
     // Dot-matrix display out:
     output wire RCLK,
@@ -73,6 +73,16 @@ module fpga (
         assign clk32mhz = clk;
     `endif
 
+    // Disconnected 7-seg elements as we use the PMOD 1A port for VGA on the iCEBreaker:
+    wire seg_a;
+    wire seg_b;
+    wire seg_c;
+    wire seg_d;
+    wire seg_e;
+    wire seg_f;
+    wire seg_g;
+    wire cath;
+
     pong pong0(
         .clk32mhz(clk32mhz),
         .clk12mhz(clk12mhz),
@@ -80,11 +90,10 @@ module fpga (
 
         .start(start),
 
-        // Hardwire paddle inputs to 0 as we use the PMOD 1A port for VGA on the iCEBreaker:
-        .player1_a(1'b0),
-        .player1_b(1'b0),
-        .player2_a(1'b0),
-        .player2_b(1'b0),
+        .player1_a(player1_a),
+        .player1_b(player1_b),
+        .player2_a(player2_a),
+        .player2_b(player2_b),
 
         .seg_a(seg_a),
         .seg_b(seg_b),

@@ -35,8 +35,8 @@ module vga (
 
     assign rrggbb = activevideo ? (x_px[9:8] == 2'b00 && y_px[9:8] == 2'b00 && (
         (x_px_scaled == ball_x && y_px_scaled == ball_y) ||
-        (x_px_scaled == 4'b0 && lpaddle[y_px_scaled]) ||
-        (x_px_scaled == 4'hf && rpaddle[y_px_scaled])
+        (x_px_scaled == 4'hf && lpaddle[y_px_scaled]) ||
+        (x_px_scaled == 4'h0 && rpaddle[y_px_scaled])
     ) ? 6'b111111 : {bgcolor[2], 1'b0, bgcolor[1], 1'b0, bgcolor[0], 1'b0}) :
     6'b000000;
 

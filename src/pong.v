@@ -142,8 +142,8 @@ module pong
         .entropy(entropy),
 
         // input:
-        .lpaddle(16'hffff),
-        .rpaddle(16'hffff),
+        .lpaddle(paddle_1),
+        .rpaddle(paddle_2),
         .start(start),
 
         // output:
