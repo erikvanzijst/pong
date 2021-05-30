@@ -8,7 +8,6 @@ module pong
     (
     input wire clk12mhz,
     input wire clk32mhz,
-    input wire clk,
     input wire reset,
     input wire start,
 
