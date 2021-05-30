@@ -8,7 +8,7 @@ module paddle (
 
     input signed [1:0] encoder_value,
 
-    output reg[15:0] paddle_o
+    output wire[15:0] paddle_o
 );
 
     reg [24*2-1:0] ram [0:0];
@@ -16,6 +16,8 @@ module paddle (
     wire [15:0] paddles [1:0];
     assign paddles[0] = ram[0][24*2-1-4:24+4];
     assign paddles[1] = ram[0][23-4:4];
+
+    assign paddle_o = paddles[width];
 
     reg signed [1:0] prev;
     wire signed [1:0] diff;
@@ -26,7 +28,6 @@ module paddle (
     end
 
     always @(posedge clk) begin
-        paddle_o <= paddles[width];
         prev <= encoder_value;
 
         if (diff == 1 && !paddle_o[0]) begin

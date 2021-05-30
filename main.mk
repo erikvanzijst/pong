@@ -20,42 +20,49 @@ test_pong:
 	mkdir sim_build/
 	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v src/debounce.v src/rot_encoder.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
+	! grep failure results.xml > /dev/null
 
 test_trig:
 	rm -rf sim_build/
 	mkdir sim_build/
 	iverilog -o sim_build/trigsim.vvp -s trig -s dump src/trig.v test/dump_trig.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_trig vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/trigsim.vvp
+	! grep failure results.xml > /dev/null
 
 test_rnd:
 	rm -rf sim_build/
 	mkdir sim_build/
 	iverilog -o sim_build/rndsim.vvp -s rnd -s dump src/rnd.v test/dump_rnd.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_rnd vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/rndsim.vvp
+	! grep failure results.xml > /dev/null
 
 test_ball:
 	rm -rf sim_build/
 	mkdir sim_build/
 	iverilog -o sim_build/ballsim.vvp -Pball.THETA_WIDTH=6 -s ball -s dump  src/clkdiv.v src/ball.v src/trig.v test/dump_ball.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_ball vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/ballsim.vvp
+	! grep failure results.xml > /dev/null
 
 test_paddle:
 	rm -rf sim_build/
 	mkdir sim_build/
 	iverilog -o sim_build/paddlesim.vvp -s paddle -s dump src/paddle.v test/dump_paddle.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_paddle vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/paddlesim.vvp
+	! grep failure results.xml > /dev/null
 
 test_debounce:
 	rm -rf sim_build/
 	mkdir sim_build/
 	iverilog -o sim_build/debouncesim.vvp -s debounce -s dump -g2012 src/debounce.v test/dump_debounce.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_debounce vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/debouncesim.vvp
+	! grep failure results.xml > /dev/null
 
 test_encoder:
 	rm -rf sim_build/
 	mkdir sim_build/
 	iverilog -o sim_build/rot_encoder_sim.vvp -s rot_encoder -s dump -g2012 test/dump_rot_encoder.v src/rot_encoder.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_rot_encoder vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/rot_encoder_sim.vvp
+	! grep failure results.xml > /dev/null
 
 wave: sim
 	gtkwave $(PROJ).vcd $(PROJ).gtkw

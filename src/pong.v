@@ -50,13 +50,13 @@ module pong
     wire out_left, out_right;
     wire [3:0] score_p1, score_p2;
 
-    reg [7:0] x, y;
+    wire [7:0] x, y;
     wire game_clk;
     wire signed [4:0] speed;
-    assign speed = 11;
+    assign speed = 9;
 
-    reg [15:0] paddle_1;
-    reg [15:0] paddle_2;
+    wire [15:0] paddle_1;
+    wire [15:0] paddle_2;
 
     wire signed [1:0] player1_encoder, player2_encoder;
 
