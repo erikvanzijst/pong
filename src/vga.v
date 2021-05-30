@@ -4,10 +4,11 @@
 module vga (
     input clk,  // needs to be 31.5Mhz
     input reset,
-    input wire [3:0] ball_x,
-    input wire [3:0] ball_y,
+    input wire [7:0] ball_x,
+    input wire [7:0] ball_y,
     input wire [15:0] lpaddle,
     input wire [15:0] rpaddle,
+    input wire switch_background,
 
     output wire hsync,
     output wire vsync,
@@ -21,11 +22,11 @@ module vga (
     wire [3:0] x_px_scaled;
     wire [3:0] y_px_scaled;
     wire [5:0] background;
-    reg [25:0] bgcounter;
     reg [2:0] bgcolor;
+    reg bgtoggle;
 
     initial begin
-        bgcounter <= 0;
+        bgtoggle <= 0;
     end
 
     assign x_px_scaled = x_px[7:4];
@@ -34,7 +35,7 @@ module vga (
     assign background = x_px[8:3];
 
     assign rrggbb = activevideo ? (x_px[9:8] == 2'b00 && y_px[9:8] == 2'b00 && (
-        (x_px_scaled == ball_x && y_px_scaled == ball_y) ||
+        (x_px == ball_x && y_px == ball_y) ||
         (x_px_scaled == 4'hf && lpaddle[y_px_scaled]) ||
         (x_px_scaled == 4'h0 && rpaddle[y_px_scaled])
     ) ? 6'b111111 : {bgcolor[2], 1'b0, bgcolor[1], 1'b0, bgcolor[0], 1'b0}) :
@@ -43,8 +44,8 @@ module vga (
     vgasync vga_0 (.px_clk(clk), .hsync(hsync), .vsync(vsync), .x_px(x_px), .y_px(y_px), .activevideo(activevideo), .reset(reset));
 
     always @(posedge clk) begin
-        bgcounter <= bgcounter + 1;
-        if (bgcounter == 0) begin
+        bgtoggle <= switch_background;
+        if (bgtoggle != switch_background) begin
             bgcolor <= bgcolor + 1;
         end
     end

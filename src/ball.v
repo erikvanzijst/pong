@@ -12,8 +12,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
     input wire [15:0] lpaddle,
     input wire [15:0] rpaddle,
 
-    output reg [3:0] x,
-    output reg [3:0] y,
+    output reg [7:0] x,
+    output reg [7:0] y,
 
     output out_left,    // ball reached far-left edge
     output out_right    // ball reached far-right edge
@@ -91,8 +91,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
             if (!paddle_hit && ! wrap_y)
                 theta <= rotation_clk ? theta + 1 : theta;
 
-            x <= hor[20:17];
-            y <= vert[20:17];
+            x <= hor[20:13];
+            y <= vert[20:13];
         end
     end
 

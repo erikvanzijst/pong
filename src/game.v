@@ -12,9 +12,11 @@ module game (
     input [4:0] entropy,
 
     // screen output:
-    output wire [3:0] x,
-    output wire [3:0] y,
+    output wire [7:0] x,
+    output wire [7:0] y,
 
+    output wire out_left,
+    output wire out_right,
     output reg [3:0] score_p1,
     output reg [3:0] score_p2
 );
@@ -24,8 +26,6 @@ module game (
     // freeze countdown between games and when ball is out (max 16.846 seconds):
     reg [13:0] freeze;
     reg ball_reset;
-
-    wire out_left, out_right;
 
     initial begin
         score_p1 <= 0;

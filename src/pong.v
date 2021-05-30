@@ -48,9 +48,10 @@ module pong
     wire player2_a_deb;
     wire player2_b_deb;
 
+    wire out_left, out_right;
     wire [3:0] score_p1, score_p2;
 
-    reg [3:0] x, y;
+    reg [7:0] x, y;
     wire game_clk;
     wire signed [4:0] speed;
     assign speed = 11;
@@ -149,6 +150,8 @@ module pong
         // output:
         .x(x),
         .y(y),
+        .out_left(out_left),
+        .out_right(out_right),
         .score_p1(score_p1),
         .score_p2(score_p2)
     );
@@ -175,8 +178,8 @@ module pong
     screen #(.TIMERWIDTH(SCREENTIMERWIDTH)) screen0(
         .clk(clk12mhz),
         .reset(reset),
-        .x(x),
-        .y(y),
+        .x(x[7:4]),
+        .y(y[7:4]),
         .lpaddle(paddle_1),
         .rpaddle(paddle_2),
         .rclk(RCLK),
@@ -194,6 +197,7 @@ module pong
         .ball_y(y),
         .lpaddle(paddle_1),
         .rpaddle(paddle_2),
+        .switch_background(out_left || out_right),
 
         .hsync(hsync),
         .vsync(vsync),
