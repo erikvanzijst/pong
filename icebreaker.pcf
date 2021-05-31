@@ -1,8 +1,8 @@
 # 12 MHz clock
 set_io -nowarn clk        35
 
-# 31.5 MHz VGA clock
-set_frequency clk12mhz 12
+# Clock lines
+set_frequency clk10mhz 10.5
 set_frequency clk32mhz 31.5
 
 # RS232

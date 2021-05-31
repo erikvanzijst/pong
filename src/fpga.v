@@ -35,7 +35,7 @@ module fpga (
     output wire vsync,
     output wire [5:0] rrggbb
 );
-    wire clk12mhz, clk32mhz;
+    wire clk10mhz, clk12mhz, clk32mhz;
 
     // Generated values for pixel clock of 31.5Mhz and 72Hz frame frecuency.
     // # icepll -i12 -o31.5
@@ -85,7 +85,6 @@ module fpga (
 
     pong pong0(
         .clk32mhz(clk32mhz),
-        .clk12mhz(clk12mhz),
         .reset(reset),
 
         .start(start),
