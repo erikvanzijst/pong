@@ -5,15 +5,15 @@ module game (
     input game_clk, // 1000Hz clock
     input reset,
 
-    input wire [15:0] lpaddle,
-    input wire [15:0] rpaddle,
+    input wire [31:0] lpaddle,
+    input wire [31:0] rpaddle,
 
     input wire start,   // debounced start button
     input [4:0] entropy,
 
     // screen output:
-    output wire [7:0] x,
-    output wire [7:0] y,
+    output wire [4:0] x,
+    output wire [4:0] y,
 
     output wire out_left,
     output wire out_right,

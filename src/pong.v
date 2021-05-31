@@ -50,13 +50,13 @@ module pong
     wire out_left, out_right;
     wire [3:0] score_p1, score_p2;
 
-    wire [7:0] x, y;
+    wire [4:0] x, y;
     wire game_clk;
     wire signed [4:0] speed;
     assign speed = 9;
 
-    wire [15:0] paddle_1;
-    wire [15:0] paddle_2;
+    wire [31:0] paddle_1;
+    wire [31:0] paddle_2;
 
     wire signed [1:0] player1_encoder, player2_encoder;
 
@@ -125,19 +125,13 @@ module pong
         .clk(clk10mhz),
         .reset(reset),
         .encoder_value(player1_encoder),
-        .width(1'b0),
         .paddle_o(paddle_1)
     );
 
     paddle paddlemod_2(
         .clk(clk10mhz),
         .reset(reset),
-
-        // input:
         .encoder_value(player2_encoder),
-        .width(1'b0),
-
-        // output:
         .paddle_o(paddle_2)
     );
 
@@ -182,8 +176,8 @@ module pong
     screen #(.TIMERWIDTH(SCREENTIMERWIDTH)) screen0(
         .clk(clk10mhz),
         .reset(reset),
-        .x(x[7:4]),
-        .y(y[7:4]),
+        .x(x),
+        .y(y),
         .lpaddle(paddle_1),
         .rpaddle(paddle_2),
         .rclk(RCLK),

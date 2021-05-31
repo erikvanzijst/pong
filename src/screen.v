@@ -5,10 +5,10 @@ module screen #(parameter integer TIMERWIDTH = 12)
     (
     input clk,  // 12MHz
     input reset,
-    input wire [3:0] x,
-    input wire [3:0] y,
-    input wire [15:0] lpaddle,
-    input wire [15:0] rpaddle,
+    input wire [4:0] x,
+    input wire [4:0] y,
+    input wire [31:0] lpaddle,
+    input wire [31:0] rpaddle,
     output reg rclk,
     output reg rsdi,
     output wire oeb,
@@ -57,13 +57,13 @@ module screen #(parameter integer TIMERWIDTH = 12)
 
                 csdi <= (col>>4 == 0) && (
                     // ball:
-                    (corrected_row == y && x == 4'hf - col[3:0]) ||
+                    (corrected_row == y[4:1] && x[4:1] == 4'hf - col[3:0]) ||
 
                     // right paddle:
-                    (col == 4'hf && rpaddle[corrected_row]) ||
+                    (col == 4'hf && rpaddle[{corrected_row, 1'b0}]) ||
 
                     // left paddle:
-                    (col == 4'h0 && lpaddle[corrected_row])
+                    (col == 4'h0 && lpaddle[{corrected_row, 1'b0}])
                     );
 
             end else begin

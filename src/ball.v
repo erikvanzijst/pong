@@ -9,11 +9,11 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     // the ball's current vector:
     input signed [4:0] speed,       // length of the direction vector (speed range: -16 to 15)
-    input wire [15:0] lpaddle,
-    input wire [15:0] rpaddle,
+    input wire [31:0] lpaddle,
+    input wire [31:0] rpaddle,
 
-    output wire [7:0] x,
-    output wire [7:0] y,
+    output wire [4:0] x,
+    output wire [4:0] y,
 
     output out_left,    // ball reached far-left edge
     output out_right    // ball reached far-right edge
@@ -24,8 +24,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
     reg [20:0] hor;     // 4 high bits is x pos on screen
     reg [20:0] vert;    // 4 high bits is y pos on screen
 
-    assign x = hor[20:13];
-    assign y = vert[20:13];
+    assign x = hor[20:16];
+    assign y = vert[20:16];
 
     wire signed [7:0] sin_theta;
     wire signed [7:0] cos_theta;
@@ -47,15 +47,15 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     wire paddle_hit;
     assign paddle_hit =
-        (next_hor[20:17] == 4'hF && moving_left && (lpaddle & (1 << next_vert[20:17]))) ||
-        (next_hor[20:17] == 4'h0 && moving_right && (rpaddle & (1 << next_vert[20:17])));
+        (next_hor[20:16] == 5'h1F && moving_left && (lpaddle & (1 << next_vert[20:16]))) ||
+        (next_hor[20:16] == 5'h0 && moving_right && (rpaddle & (1 << next_vert[20:16])));
 
-    assign out_left = !next_hor[20:17] && hor[20:17] && moving_left;
-    assign out_right = next_hor[20:17] && !hor[20:17] && moving_right;
+    assign out_left = !next_hor[20:16] && hor[20:16] && moving_left;
+    assign out_right = next_hor[20:16] && !hor[20:16] && moving_right;
 
     wire wrap_y;
-    assign wrap_y = (next_vert[20:17] && !vert[20:17] && theta[THETA_WIDTH-1]) ||     // top
-                    (!next_vert[20:17] && vert[20:17] && !theta[THETA_WIDTH-1]);      // bottom
+    assign wrap_y = (next_vert[20:16] && !vert[20:16] && theta[THETA_WIDTH-1]) ||     // top
+                    (!next_vert[20:16] && vert[20:16] && !theta[THETA_WIDTH-1]);      // bottom
 
     trig trig0 (.CLK(clk), .theta_i(theta), .sin_o(sin_theta), .cos_o(cos_theta));
 
@@ -66,8 +66,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
     always @(posedge clk) begin
         if (reset) begin
             // place the ball at the center of the screen:
-            hor <= 8 << 17;
-            vert <= 8 << 17;
+            hor <= 16 << 16;
+            vert <= 16 << 16;
 
             // start off in a random direction:
             case (entropy[4:3])
