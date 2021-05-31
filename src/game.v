@@ -23,8 +23,8 @@ module game (
 
     reg signed [4:0] speed;
 
-    // freeze countdown between games and when ball is out (max 16.846 seconds):
-    reg [13:0] freeze;
+    // freeze countdown between games and when ball is out (max 32 seconds):
+    reg [14:0] freeze;
     reg ball_reset;
 
     initial begin
@@ -36,7 +36,7 @@ module game (
 
     always @(posedge game_clk) begin
         if (reset) begin
-            freeze <= 14'h3FFF;
+            freeze <= 15'h7FFF;
             score_p1 <= 0;
             score_p2 <= 0;
             speed <= 0;
@@ -48,12 +48,12 @@ module game (
                 if (out_left) begin
                     score_p1 <= score_p1 + 1;
 
-                    freeze <= score_p1 == 8 ? 14'h3FFF : 2000; // start 2 second timeout
+                    freeze <= score_p1 == 8 ? 15'h7FFF : 2000; // start 2 second timeout
                     speed <= 0;
                 end else if (out_right) begin
                     score_p2 <= score_p2 + 1;
 
-                    freeze <= score_p2 == 8 ? 14'h3FFF : 2000; // start 2 second timeout
+                    freeze <= score_p2 == 8 ? 15'h7FFF : 2000; // start 2 second timeout
                     speed <= 0;
                 end else begin
                     speed <= 11;    // restart the game
