@@ -1,7 +1,7 @@
 # Pong on an FPGA
 
 This is a pure hardware implementation of Pong in Verilog and runs on the
-Lattice iCE40 FPGA.
+[Lattice iCE40 FPGA](https://1bitsquared.com/collections/fpga/products/icebreaker).
 
 ![](media/monitor.jpg)
 

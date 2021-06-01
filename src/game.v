@@ -10,6 +10,7 @@ module game (
 
     input wire start,   // debounced start button
     input [4:0] entropy,
+    input wire [3:0] difficulty,
 
     // screen output:
     output wire [4:0] x,
@@ -21,10 +22,10 @@ module game (
     output reg [3:0] score_p2
 );
 
-    reg signed [4:0] speed;
+    reg [3:0] speed;
 
-    // freeze countdown between games and when ball is out (max 32 seconds):
-    reg [14:0] freeze;
+    // Pause between games and when ball is out:
+    reg [16:0] freeze;
     reg ball_reset;
 
     initial begin
@@ -36,7 +37,7 @@ module game (
 
     always @(posedge game_clk) begin
         if (reset) begin
-            freeze <= 15'h7FFF;
+            freeze <= 17'h1FFFF;
             score_p1 <= 0;
             score_p2 <= 0;
             speed <= 0;
@@ -48,15 +49,15 @@ module game (
                 if (out_left) begin
                     score_p1 <= score_p1 + 1;
 
-                    freeze <= score_p1 == 8 ? 15'h7FFF : 2000; // start 2 second timeout
+                    freeze <= score_p1 == 8 ? 17'h1FFFF : 8000; // timeout (short within game; long between game)
                     speed <= 0;
                 end else if (out_right) begin
                     score_p2 <= score_p2 + 1;
 
-                    freeze <= score_p2 == 8 ? 15'h7FFF : 2000; // start 2 second timeout
+                    freeze <= score_p2 == 8 ? 17'h1FFFF : 8000; // timeout (short within game; long between game)
                     speed <= 0;
                 end else begin
-                    speed <= 11;    // restart the game
+                    speed <= difficulty;    // restart the game
                 end
 
             end else begin

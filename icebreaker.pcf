@@ -119,7 +119,7 @@ set_io -nowarn ca         44
 #set_io -nowarn DIP7       32
 #set_io -nowarn DIP8       28
 
-# Matrix display
+# PMOD 1B - Matrix display
 set_io -nowarn OEB       43
 set_io -nowarn CSDI      38
 set_io -nowarn CCLK      34
@@ -128,3 +128,10 @@ set_io -nowarn RCLK      42
 set_io -nowarn RSDI      36
 set_io -nowarn reset     32
 set_io -nowarn start     28
+
+# PMOD 1B - Difficulty dial
+set_io -nowarn difficulty[3]     43
+set_io -nowarn difficulty[2]     38
+set_io -nowarn difficulty[1]     34
+set_io -nowarn difficulty[0]     31
+

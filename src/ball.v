@@ -8,7 +8,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
     input [4:0] entropy,
 
     // the ball's current vector:
-    input signed [4:0] speed,       // length of the direction vector (speed range: -16 to 15)
+    input [3:0] speed,       // length of the direction vector (speed range: 0 to 15)
     input wire [31:0] lpaddle,
     input wire [31:0] rpaddle,
 
@@ -19,7 +19,12 @@ module ball #(parameter integer THETA_WIDTH = 6)
     output out_right    // ball reached far-right edge
     );
 
-    reg [THETA_WIDTH-1:0] theta;   // angular direction in 64 increments
+    reg signed [THETA_WIDTH-1:0] theta;   // angular direction in 64 increments
+    wire signed [4:0] speed_s;
+    assign speed_s = {1'b0, speed}; // 5-bit signed speed value so we can multiply with dx/dy
+
+    wire signed [2:0] bounce;
+    assign bounce = entropy[2:0];
 
     reg [20:0] hor;     // 4 high bits is x pos on screen
     reg [20:0] vert;    // 4 high bits is y pos on screen
@@ -34,8 +39,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     wire signed [20:0] dx;
     wire signed [20:0] dy;
-    assign dx = cos_theta * speed;
-    assign dy = sin_theta * speed;
+    assign dx = cos_theta * speed_s;
+    assign dy = sin_theta * speed_s;
 
     assign next_hor = hor + dx;
     assign next_vert = vert + dy;
@@ -59,10 +64,6 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     trig trig0 (.CLK(clk), .theta_i(theta), .sin_o(sin_theta), .cos_o(cos_theta));
 
-    // Temporary hardwired rotation:
-    wire rotation_clk;
-    customclk #(.TOP(500)) rotator(.clk(clk), .clkout(rotation_clk));
-
     always @(posedge clk) begin
         if (reset) begin
             // place the ball at the center of the screen:
@@ -78,21 +79,18 @@ module ball #(parameter integer THETA_WIDTH = 6)
             endcase
 
         end else begin
-            if (paddle_hit || out_left || out_right) begin
-                theta <= (1 << THETA_WIDTH-1) - theta;
-            end else begin
+            if (!(paddle_hit || out_left || out_right || wrap_y)) begin
                 hor <= next_hor;
-            end
-
-            if (wrap_y) begin
-                theta <= (1 << THETA_WIDTH) - theta;
-            end else begin
                 vert <= next_vert;
             end
 
-            // Introduce some gradual curving:
-            if (!paddle_hit && ! wrap_y)
-                theta <= rotation_clk ? theta + 1 : theta;
+            if (paddle_hit || out_left || out_right) begin
+                theta <= ((1 << THETA_WIDTH-1) - theta) + bounce;
+            end
+
+            if (wrap_y) begin
+                theta <= ((1 << THETA_WIDTH) - theta) + bounce;
+            end
         end
     end
 

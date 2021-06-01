@@ -11,6 +11,8 @@ module fpga (
     input wire player2_a,
     input wire player2_b,
 
+    input wire [3:0] difficulty,
+
 //  Not enough pins on the iCEBreaker :-/
     // 7-segment scoreboards:
 //    output wire seg_a,
@@ -23,12 +25,12 @@ module fpga (
 //    output wire cath,
 
     // Dot-matrix display out:
-    output wire RCLK,
-    output wire RSDI,
-    output wire OEB,
-    output wire CSDI,
-    output wire CCLK,
-    output wire LE,
+//    output wire RCLK,
+//    output wire RSDI,
+//    output wire OEB,
+//    output wire CSDI,
+//    output wire CCLK,
+//    output wire LE,
 
     // VGA out:
     output wire hsync,
@@ -83,11 +85,20 @@ module fpga (
     wire seg_g;
     wire cath;
 
+    // Disconnected dot matrix display as we use the PMOD 1B for the difficulty dial:
+    wire RCLK;
+    wire RSDI;
+    wire OEB;
+    wire CSDI;
+    wire CCLK;
+    wire LE;
+
     pong pong0(
         .clk32mhz(clk32mhz),
         .reset(reset),
 
         .start(start),
+        .difficulty(difficulty),
 
         .player1_a(player1_a),
         .player1_b(player1_b),

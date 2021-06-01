@@ -3,12 +3,13 @@
 
 module pong
     #(parameter integer SCREENTIMERWIDTH = 10,
-      parameter integer BALLSPEED = 20,
-      parameter integer GAMECLK = 21000)
+      parameter integer GAMECLK = 10000)
     (
     input wire clk32mhz,
     input wire reset,
     input wire start,
+
+    input wire [3:0] difficulty,
 
     input wire player1_a,
     input wire player1_b,
@@ -52,8 +53,6 @@ module pong
 
     wire [4:0] x, y;
     wire game_clk;
-    wire signed [4:0] speed;
-    assign speed = 9;
 
     wire [31:0] paddle_1;
     wire [31:0] paddle_2;
@@ -139,6 +138,7 @@ module pong
         .game_clk(game_clk),
         .reset(reset),
         .entropy(entropy),
+        .difficulty(difficulty),
 
         // input:
         .lpaddle(paddle_1),
