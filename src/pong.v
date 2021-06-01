@@ -188,6 +188,44 @@ module pong
         .le(LE)
     );
 
+    parameter BLACK         = 6'b000000;
+    parameter LIGHTGREY     = 6'b010101;
+    parameter GREY          = 6'b101010;
+    parameter LIGHTRED      = 6'b100000;
+    parameter RED           = 6'b110000;
+    parameter LIGHTGREEN    = 6'b001000;
+    parameter GREEN         = 6'b001100;
+    parameter LIGHTBLUE     = 6'b000010;
+    parameter BLUE          = 6'b000011;
+    parameter LIGHTYELLOW   = 6'b101000;
+    parameter YELLOW        = 6'b111100;
+    parameter LIGHTMAGENTA  = 6'b100010;
+    parameter MAGENTA       = 6'b110011;
+    parameter LIGHTCYAN     = 6'b001010;
+    parameter CYAN          = 6'b001111;
+    parameter WHITE         = 6'b111111;
+
+    function [5:0] bgcolor (input [3:0] difficulty);
+        case (difficulty)
+            4'h0: bgcolor = LIGHTGREY;
+            4'h1: bgcolor = LIGHTRED;
+            4'h2: bgcolor = LIGHTGREEN;
+            4'h3: bgcolor = LIGHTBLUE;
+            4'h4: bgcolor = LIGHTYELLOW;
+            4'h5: bgcolor = LIGHTCYAN;
+            4'h6: bgcolor = LIGHTMAGENTA;
+            4'h7: bgcolor = GREY;
+            4'h8: bgcolor = BLACK;
+            4'h9: bgcolor = RED;
+            4'ha: bgcolor = GREEN;
+            4'hb: bgcolor = BLUE;
+            4'hc: bgcolor = YELLOW;
+            4'hd: bgcolor = CYAN;
+            4'he: bgcolor = MAGENTA;
+            4'hf: bgcolor = BLACK;
+        endcase
+    endfunction
+
     vga vga0(
         .clk(clk32mhz),
         .reset(reset),
@@ -195,7 +233,7 @@ module pong
         .ball_y(y),
         .lpaddle(paddle_1),
         .rpaddle(paddle_2),
-        .switch_background(out_left || out_right),
+        .bgcolor(bgcolor(difficulty)),
 
         .hsync(hsync),
         .vsync(vsync),
