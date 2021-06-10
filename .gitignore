@@ -10,3 +10,4 @@ results.xml*.asc
 results.xml
 *.asc
 .idea/
+sim_build

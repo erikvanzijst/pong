@@ -40,7 +40,7 @@ module score (
         blinker <= 0;
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
             clk_toggle <= 0;
             blinker <= 0;

@@ -6,6 +6,7 @@ module customclk
       parameter integer TOP = 12000)
     (
         input clk,
+        input reset,
         output clkout
     );
 
@@ -17,6 +18,10 @@ module customclk
     end
 
     always @(posedge clk) begin
-        counter <= (counter == TOP) ? 0 : counter + 1;
+        if (reset) begin
+            counter <= 0;
+        end else begin
+            counter <= (counter == TOP) ? 1'b0 : (counter + 1'b1);
+        end
     end
 endmodule

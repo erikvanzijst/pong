@@ -18,7 +18,7 @@ endif
 test_pong:
 	rm -rf sim_build/
 	mkdir sim_build/
-	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=6 -Ppong.BALLSPEED=32 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/math.v src/debounce.v src/rot_encoder.v test/dump_pong.v
+	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=5 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/trig.v src/debounce.v src/rot_encoder.v src/vga.v src/vgasync.v src/score.v src/rnd.v src/game.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 	! grep failure results.xml > /dev/null
 
@@ -63,6 +63,15 @@ test_encoder:
 	iverilog -o sim_build/rot_encoder_sim.vvp -s rot_encoder -s dump -g2012 test/dump_rot_encoder.v src/rot_encoder.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_rot_encoder vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/rot_encoder_sim.vvp
 	! grep failure results.xml > /dev/null
+
+# Gate level simulation requires hardening the Pong project with Openlane and then copy the `pong.lvs.powered.v` file
+# from the Openlane results/lvs/ dir into the Pong dir.
+test_gatelevel:
+	rm -rf sim_build/
+	mkdir sim_build/
+	cat test/gl_header.v pong.lvs.powered.v > sim_build/pong.lvs.powered.v
+	iverilog -o sim_build/sim.vvp -s pong -s dump -g2012 sim_build/pong.lvs.powered.v test/dump_pong.v -I $(PDK_ROOT)/sky130A
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_gatelevel vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 
 wave: sim
 	gtkwave $(PROJ).vcd $(PROJ).gtkw

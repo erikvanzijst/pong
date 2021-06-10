@@ -1,62 +1,118 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Sat Apr 24 21:39:00 2021
+[*] Sun Jun 13 01:35:37 2021
 [*]
-[dumpfile] "/home/erik/work/WTFpga/wtfpga.vcd"
-[dumpfile_mtime] "Sat Apr 24 21:37:39 2021"
-[dumpfile_size] 159690
-[savefile] "/home/erik/work/WTFpga/wtfpga.gtkw"
-[timestart] 158680000
-[size] 2659 985
+[dumpfile] "/home/erik/work/openlane/designs/wrapped_pong/pong/pong.vcd"
+[dumpfile_mtime] "Sun Jun 13 01:32:48 2021"
+[dumpfile_size] 14836933
+[savefile] "/home/erik/work/openlane/designs/wrapped_pong/pong/pong.gtkw"
+[timestart] 139840000
+[size] 2946 1109
 [pos] -1 -1
-*-21.037308 92877000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
-[treeopen] top.
-[treeopen] top.screen0.
-[sst_width] 233
-[signals_width] 191
+*-22.480097 158100000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] pong.
+[treeopen] pong._3985_.
+[treeopen] pong.output24.
+[treeopen] pong.PHY_1000.
+[sst_width] 334
+[signals_width] 254
 [sst_expanded] 1
-[sst_vpaned_height] 279
+[sst_vpaned_height] 320
+@28
+pong.VPWR
+pong.VGND
+pong.reset
+pong.start
+@200
+-
+@28
+pong.clk32mhz
+pong.\clk10_mod.counter[1]
+pong.\clk10_mod.counter[0]
 @200
 -
 -top
+@22
+pong.difficulty[3:0]
 @28
-top.CLK
-top.reset
-@24
-top.x[3:0]
-top.y[3:0]
+pong.player1_a
+pong.player1_b
+pong.player2_a
+pong.player2_b
+pong.\game0.ball_reset
+pong.\game0.ball0.vert[7]
 @200
 -
 -
 -screen
-@24
-top.screen0.x[3:0]
-top.screen0.y[3:0]
+@28
+pong.RCLK
+pong.RSDI
+pong.CCLK
+pong.CSDI
+pong.LE
 @200
 -
-@22
-top.screen0.row[3:0]
-@24
-top.screen0.corrected_row[3:0]
-@201
 -
 @28
-top.screen0.rsdi
-top.screen0.rclk
-@200
--
-@28
-top.screen0.csdi
-top.screen0.cclk
+pong.player1_a
+pong.player1_b
+pong.\debounce_1a.debounced
+pong.\debounce_1b.debounced
 @200
 -
 @28
-top.screen0.le
+pong.\debounce_1a.button_hist[0]
+pong.\debounce_1a.button_hist[1]
 @200
+-
+@28
+pong.\encoder_1.value[0]
+pong.\encoder_1.value[1]
+@200
+-
+@28
+pong.\paddlemod_1.prev[0]
+pong.\paddlemod_1.prev[1]
+@29
+pong.\paddlemod_1.ram[0]
+pong.\paddlemod_1.ram[1]
+pong.\paddlemod_1.ram[2]
+pong.\paddlemod_1.ram[3]
+pong.\paddlemod_1.ram[4]
+pong.\paddlemod_1.ram[5]
+pong.\paddlemod_1.ram[6]
+pong.\paddlemod_1.ram[7]
+pong.\paddlemod_1.ram[8]
+pong.\paddlemod_1.ram[9]
+pong.\paddlemod_1.ram[10]
+pong.\paddlemod_1.ram[11]
+pong.\paddlemod_1.ram[12]
+pong.\paddlemod_1.ram[13]
+pong.\paddlemod_1.ram[14]
+pong.\paddlemod_1.ram[15]
+pong.\paddlemod_1.ram[16]
+pong.\paddlemod_1.ram[17]
+@200
+-
+@28
+pong.vsync
+pong.hsync
+@800022
+pong.rrggbb[5:0]
+@28
+(0)pong.rrggbb[5:0]
+(1)pong.rrggbb[5:0]
+(2)pong.rrggbb[5:0]
+(3)pong.rrggbb[5:0]
+(4)pong.rrggbb[5:0]
+(5)pong.rrggbb[5:0]
+@1001200
+-group_end
+@200
+-
+-
 -
 -ball
-@24
-top.ball0.x[3:0]
-top.ball0.y[3:0]
 [pattern_trace] 1
 [pattern_trace] 0

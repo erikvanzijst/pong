@@ -5,6 +5,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
     (
     input wire clk, // should be 2000Hz for optimally playable speed
     input wire reset,
+    input wire ball_reset,
     input [4:0] entropy,
 
     // the ball's current vector:
@@ -64,8 +65,13 @@ module ball #(parameter integer THETA_WIDTH = 6)
 
     trig trig0 (.CLK(clk), .theta_i(theta), .sin_o(sin_theta), .cos_o(cos_theta));
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
+            hor <= 16 << 16;
+            vert <= 16 << 16;
+            theta <= 6'b0;
+
+        end else if (ball_reset) begin
             // place the ball at the center of the screen:
             hor <= 16 << 16;
             vert <= 16 << 16;

@@ -12,7 +12,7 @@ module rot_encoder(
     reg old_a;
     reg old_b;
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
 
             old_a <= 0;

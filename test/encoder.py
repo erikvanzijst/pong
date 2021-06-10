@@ -1,13 +1,14 @@
-from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
+from cocotb.triggers import ClockCycles
 import random
+
 
 class Encoder(object):
 
-    CYCLE = [ 1, 1, 0, 0 ]
+    CYCLE = [1, 1, 0, 0]
 
     # number of cycles at the edges of transitions vulnerable to bouncing
     # % chance of a bounce within the edges
-    def __init__(self, clk, a, b, clocks_per_phase = 20, noise_cycles = 5, noise_chance = 0.5):
+    def __init__(self, clk, a, b, clocks_per_phase=20, noise_cycles=5, noise_chance=0.5):
         # inputs
         self.clk = clk
         self.a = a
@@ -28,7 +29,7 @@ class Encoder(object):
     def set_clocks_per_phase(self, clocks_per_phase):
         self.clocks_per_phase = clocks_per_phase
 
-    async def update(self, incr = 1):
+    async def update(self, incr=1):
         await ClockCycles(self.clk, 1)
         self.cycle += 1 
         if self.cycle % self.clocks_per_phase == 0:

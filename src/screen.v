@@ -40,7 +40,7 @@ module screen #(parameter integer TIMERWIDTH = 12)
         csdi <= 0;
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) begin
             rowtimer <= 0;
             rclk <= 0;

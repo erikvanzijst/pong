@@ -35,7 +35,7 @@ module game (
         ball_reset <= 0;
     end
 
-    always @(posedge game_clk) begin
+    always @(posedge game_clk or posedge reset) begin
         if (reset) begin
             freeze <= 17'h1FFFF;
             score_p1 <= 0;
@@ -78,7 +78,8 @@ module game (
 
     ball ball0(
         .clk(game_clk),
-        .reset(ball_reset),
+        .reset(reset),
+        .ball_reset(ball_reset),
         .entropy(entropy),
 
         .speed(speed),

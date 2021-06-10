@@ -7,29 +7,35 @@ module paddle (
 
     input signed [1:0] encoder_value,
 
-    output wire[31:0] paddle_o
+    output [31:0] paddle_o
 );
+    localparam PADDLE = 32'b00000000000011111111000000000000;
 
-    reg [31:0] ram [0:0];
-
-    assign paddle_o = ram[0];
+    reg [31:0] ram;
+    assign paddle_o = ram;
 
     reg signed [1:0] prev;
     wire signed [1:0] diff;
     assign diff = encoder_value - prev;
 
     initial begin
-        $readmemb("paddles.rom", ram);
+        ram <= PADDLE;
     end
 
-    always @(posedge clk) begin
-        prev <= encoder_value;
+    always @(posedge clk or posedge reset) begin
+        if (reset) begin
+            prev <= 2'b00;
+            ram <= PADDLE;
 
-        if (diff == 1 && !paddle_o[0]) begin
-            ram[0] <= {ram[0][0], ram[0][31:1]};
+        end else begin
+            prev <= encoder_value;
 
-        end else if (diff == -1 && !paddle_o[31]) begin
-            ram[0] <= {ram[0][30:0], ram[0][31]};
+            if (diff == 2'b01 && !paddle_o[0]) begin
+                ram <= {ram[0], ram[31:1]};
+
+            end else if (diff == 2'b11 && !paddle_o[31]) begin
+                ram <= {ram[30:0], ram[31]};
+            end
         end
     end
 

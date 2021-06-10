@@ -1,9 +1,22 @@
 `default_nettype none
 `timescale 1ns / 1ps
 
+`ifndef SCREENTIMERWIDTH
+    `define SCREENTIMERWIDTH 10
+`endif
+
+`ifndef GAMECLK
+    `define GAMECLK 10000
+`endif
+
+`ifndef DEBOUNCEWIDTH
+    `define DEBOUNCEWIDTH 16
+`endif
+
 module pong
-    #(parameter integer SCREENTIMERWIDTH = 10,
-      parameter integer GAMECLK = 10000)
+    #(parameter integer SCREENTIMERWIDTH = `SCREENTIMERWIDTH,
+      parameter integer GAMECLK = `GAMECLK,
+      parameter integer DEBOUNCEWIDTH = `DEBOUNCEWIDTH)
     (
     input wire clk32mhz,
     input wire reset,
@@ -67,37 +80,39 @@ module pong
 
     customclk #(.WIDTH(2), .TOP(2)) clk10_mod(
         .clk(clk32mhz),
+        .reset(reset),
         .clkout(clk10mhz)
     );
 
     // A 1500Hz clock to driver the game and 7-segment cathode modulation:
-    customclk #(.WIDTH(15), .TOP(GAMECLK)) game_clk_mod(
+    customclk #(.WIDTH(17), .TOP(GAMECLK)) game_clk_mod(
         .clk(clk32mhz),
+        .reset(reset),
         .clkout(game_clk)
     );
 
-    debounce #(.HIST_LEN(16)) debounce_1a (
+    debounce #(.HIST_LEN(DEBOUNCEWIDTH)) debounce_1a (
         .clk(clk10mhz),
         .reset(reset),
         .button(player1_a),
         .debounced(player1_a_deb)
     );
 
-    debounce #(.HIST_LEN(16)) debounce_1b (
+    debounce #(.HIST_LEN(DEBOUNCEWIDTH)) debounce_1b (
         .clk(clk10mhz),
         .reset(reset),
         .button(player1_b),
         .debounced(player1_b_deb)
     );
 
-    debounce #(.HIST_LEN(16)) debounce_2a (
+    debounce #(.HIST_LEN(DEBOUNCEWIDTH)) debounce_2a (
         .clk(clk10mhz),
         .reset(reset),
         .button(player2_a),
         .debounced(player2_a_deb)
     );
 
-    debounce #(.HIST_LEN(16)) debounce_2b (
+    debounce #(.HIST_LEN(DEBOUNCEWIDTH)) debounce_2b (
         .clk(clk10mhz),
         .reset(reset),
         .button(player2_b),
