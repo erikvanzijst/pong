@@ -49,12 +49,14 @@ module game (
                 if (out_left) begin
                     score_p1 <= score_p1 + 1;
 
-                    freeze <= score_p1 == 8 ? 17'h1FFFF : 8000; // timeout (short within game; long between game)
+                    // timeout (short within game; long between game)
+                    freeze <= score_p1 == 8 ? 17'h1FFFF : 8000;
                     speed <= 0;
                 end else if (out_right) begin
                     score_p2 <= score_p2 + 1;
 
-                    freeze <= score_p2 == 8 ? 17'h1FFFF : 8000; // timeout (short within game; long between game)
+                    // timeout (short within game; long between game)
+                    freeze <= score_p2 == 8 ? 17'h1FFFF : 8000;
                     speed <= 0;
                 end else begin
                     speed <= difficulty;    // restart the game

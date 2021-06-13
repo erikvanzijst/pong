@@ -104,7 +104,7 @@ prog: $(PROJ).bin
 	iceprog $<
 
 lint:
-	verible-verilog-lint src/*.v --rules_config verible.rules
+	verible-verilog-lint --rules=-explicit-parameter-storage-type src/*.v
 
 clean:
 	rm -f $(PROJ).blif $(PROJ).asc $(PROJ).rpt $(PROJ).bin $(PROJ).json $(PROJ).log *.vcd $(ADD_CLEAN)

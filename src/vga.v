@@ -40,7 +40,14 @@ module vga (
 
     ) : 6'b000000;
 
-    vgasync vga_0 (.px_clk(clk), .hsync(hsync), .vsync(vsync), .x_px(x_px), .y_px(y_px), .activevideo(activevideo), .reset(reset));
+    vgasync vga_0 (
+        .px_clk(clk),
+        .hsync(hsync),
+        .vsync(vsync),
+        .x_px(x_px),
+        .y_px(y_px),
+        .activevideo(activevideo),
+        .reset(reset));
 
 endmodule
 `default_nettype wire

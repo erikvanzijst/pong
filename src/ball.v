@@ -81,7 +81,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
                 2'b00: theta <= {3'b000, entropy[2:0]};
                 2'b01: theta <= {3'b011, entropy[2:0]};
                 2'b10: theta <= {3'b100, entropy[2:0]};
-                2'b11: theta <= {3'b111, entropy[2:0]};
+                default: theta <= {3'b111, entropy[2:0]};
             endcase
 
         end else begin

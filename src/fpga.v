@@ -113,7 +113,7 @@ module fpga (
         .seg_f(seg_f),
         .seg_g(seg_g),
         .cath(cath),
-        
+
         .RCLK(RCLK),
         .RSDI(RSDI),
         .OEB(OEB),

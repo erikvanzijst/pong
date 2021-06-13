@@ -2,21 +2,21 @@
 //////////////////////////////////////////////////////////////////////////////////
 // Company: Ridotech
 // Engineer: Juan Manuel Rico
-// 
-// Create Date:    09:34:23 30/09/2017 
+//
+// Create Date:    09:34:23 30/09/2017
 // Module Name:    vga_controller
 // Description:    Basic control for 640x480@72Hz VGA signal.
 //
-// Dependencies: 
+// Dependencies:
 //
-// Revision: 
+// Revision:
 // Revision 0.01 - File Created for Roland Coeurjoly (RCoeurjoly) in 640x480@85Hz.
 // Revision 0.02 - Change for 640x480@60Hz.
 // Revision 0.03 - Solved some mistakes.
 // Revision 0.04 - Change for 640x480@72Hz and output signals 'activevideo'
 //                 and 'px_clk'.
 //
-// Additional Comments: 
+// Additional Comments:
 //
 //////////////////////////////////////////////////////////////////////////////////
 module vgasync (
@@ -44,18 +44,18 @@ module vgasync (
     */
 
     // Video structure constants.
-    parameter activeHvideo = 640;               // Width of visible pixels.
-    parameter activeVvideo =  480;              // Height of visible lines.
-    parameter hfp = 24;                         // Horizontal front porch length.
-    parameter hpulse = 40;                      // Hsync pulse length.
-    parameter hbp = 128;                        // Horizontal back porch length.
-    parameter vfp = 9;                          // Vertical front porch length.
-    parameter vpulse = 3;                       // Vsync pulse length.
-    parameter vbp = 28;                         // Vertical back porch length.
-    parameter blackH = hfp + hpulse + hbp;      // Hide pixels in one line.
-    parameter blackV = vfp + vpulse + vbp;      // Hide lines in one frame.
-    parameter hpixels = blackH + activeHvideo;  // Total horizontal pixels.
-    parameter vlines = blackV + activeVvideo;   // Total lines.
+    parameter ACTIVEHVIDEO = 640;               // Width of visible pixels.
+    parameter ACTIVEVVIDEO =  480;              // Height of visible lines.
+    parameter HFP = 24;                         // Horizontal front porch length.
+    parameter HPULSE = 40;                      // Hsync pulse length.
+    parameter HBP = 128;                        // Horizontal back porch length.
+    parameter VFP = 9;                          // Vertical front porch length.
+    parameter VPULSE = 3;                       // Vsync pulse length.
+    parameter VBP = 28;                         // Vertical back porch length.
+    parameter BLACKH = HFP + HPULSE + HBP;      // Hide pixels in one line.
+    parameter BLACKV = VFP + VPULSE + VBP;      // Hide lines in one frame.
+    parameter HPIXELS = BLACKH + ACTIVEHVIDEO;  // Total horizontal pixels.
+    parameter VLINES = BLACKV + ACTIVEVVIDEO;   // Total lines.
 
     // Registers for storing the horizontal & vertical counters.
     reg [9:0] hc;
@@ -78,7 +78,7 @@ module vgasync (
             vc <= 0;
         end else begin
             // Keep counting until the end of the line.
-            if (hc < hpixels - 1)
+            if (hc < HPIXELS - 1)
                 hc <= hc + 1;
             else
             // When we hit the end of the line, reset the horizontal
@@ -87,7 +87,7 @@ module vgasync (
             // reset that one too.
             begin
                 hc <= 0;
-                if (vc < vlines - 1)
+                if (vc < VLINES - 1)
                 vc <= vc + 1;
             else
                vc <= 0;
@@ -96,9 +96,9 @@ module vgasync (
      end
 
     // Generate sync pulses (active low) and active video.
-    assign hsync = (hc >= hfp && hc < hfp + hpulse) ? 0:1;
-    assign vsync = (vc >= vfp && vc < vfp + vpulse) ? 0:1;
-    assign activevideo = (hc >= blackH && vc >= blackV) ? 1:0;
+    assign hsync = (hc >= HFP && hc < HFP + HPULSE) ? 0:1;
+    assign vsync = (vc >= VFP && vc < VFP + VPULSE) ? 0:1;
+    assign activevideo = (hc >= BLACKH && vc >= BLACKV) ? 1:0;
 
     // Generate color.
     always @(posedge px_clk)
@@ -107,8 +107,8 @@ module vgasync (
             x_px <= 0;
             y_px <= 0;
         end else begin
-            x_px <= hc - blackH;
-            y_px <= vc - blackV;
+            x_px <= hc - BLACKH;
+            y_px <= vc - BLACKV;
         end
      end
  endmodule
