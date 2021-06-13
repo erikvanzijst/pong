@@ -92,10 +92,6 @@ async def test_movement(dut):
     clock = Clock(dut.clk, 83, units="ns")
     cocotb.fork(clock.start())
 
-    async def clear() -> None:
-        dut.speed = 1
-        await reset(dut)
-
     async def step(speed: int, theta: int) -> None:
         dut.speed = speed
         dut.theta = theta
@@ -144,5 +140,5 @@ async def test_movement(dut):
 
     # Move at max forward speed (15)
     await step(15, 0)
-    assert(dut.hor == 0x100771 and dut.x == 16)
-    assert(dut.vert == 0x100000 and dut.y == 16)
+    assert dut.hor == 0x100771 and dut.x == 16
+    assert dut.vert == 0x100000 and dut.y == 16

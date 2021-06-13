@@ -6,10 +6,9 @@ from test.encoder import Encoder
 
 
 async def reset(dut):
-    dut.reset <= 1
-
+    dut.reset = 1
     await ClockCycles(dut.clk32mhz, 3)
-    dut.reset <= 0
+    dut.reset = 0
 
 
 @cocotb.test()

@@ -1,15 +1,13 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Sun Jun 13 18:18:08 2021
+[*] Sun Jun 13 22:08:51 2021
 [*]
-[dumpfile] "/home/erik/work/openlane/designs/wrapped_pong/pong/ball.vcd"
-[dumpfile_mtime] "Sun Jun 13 18:17:30 2021"
-[dumpfile_size] 4938
+[dumpfile] "(null)"
 [savefile] "/home/erik/work/openlane/designs/wrapped_pong/pong/ball.gtkw"
-[timestart] 0
-[size] 1176 703
-[pos] 0 335
-*-18.290199 581000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[timestart] 2318000
+[size] 1535 703
+[pos] -1 -1
+*-17.998842 581000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] ball.
 [sst_width] 233
 [signals_width] 235
@@ -23,7 +21,7 @@ ball.reset
 -
 @24
 ball.theta[5:0]
-@23
+@22
 ball.speed[3:0]
 @200
 -
@@ -54,5 +52,9 @@ ball.dy[20:0]
 -
 @28
 ball.wrap_y
+@24
+ball.x[4:0]
+@25
+ball.y[4:0]
 [pattern_trace] 1
 [pattern_trace] 0

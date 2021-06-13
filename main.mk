@@ -1,5 +1,5 @@
 
-all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball
+all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball test_game
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top fpga -blif $@' $< $(ADD_SRC)
@@ -34,6 +34,13 @@ test_rnd:
 	mkdir sim_build/
 	iverilog -o sim_build/rndsim.vvp -s rnd -s dump src/rnd.v test/dump_rnd.v
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_rnd vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/rndsim.vvp
+	! grep failure results.xml > /dev/null
+
+test_game:
+	rm -rf sim_build/
+	mkdir sim_build/
+	iverilog -o sim_build/gamesim.vvp -s game -s dump src/game.v src/ball.v src/trig.v test/dump_game.v
+	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_game vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/gamesim.vvp
 	! grep failure results.xml > /dev/null
 
 test_ball:
