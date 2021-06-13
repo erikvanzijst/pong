@@ -1,5 +1,5 @@
 
-all: test_trig test_paddle test_debounce test_encoder test_rnd
+all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top fpga -blif $@' $< $(ADD_SRC)
@@ -69,7 +69,7 @@ test_encoder:
 test_gatelevel:
 	rm -rf sim_build/
 	mkdir sim_build/
-	cat test/gl_header.v pong.lvs.powered.v > sim_build/pong.lvs.powered.v
+	cat test/gl_header.v gds/pong.lvs.powered.v > sim_build/pong.lvs.powered.v
 	iverilog -o sim_build/sim.vvp -s pong -s dump -g2012 sim_build/pong.lvs.powered.v test/dump_pong.v -I $(PDK_ROOT)/sky130A
 	PYTHONOPTIMIZE=${NOASSERT} MODULE=test.test_gatelevel vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 

@@ -27,8 +27,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
     wire signed [2:0] bounce;
     assign bounce = entropy[2:0];
 
-    reg [20:0] hor;     // 4 high bits is x pos on screen
-    reg [20:0] vert;    // 4 high bits is y pos on screen
+    reg [20:0] hor;     // 5 high bits is x pos on VGA, 4 MSB on dotmatrix
+    reg [20:0] vert;    // 5 high bits is y pos on VGA, 4 MSB on dotmatrix
 
     assign x = hor[20:16];
     assign y = vert[20:16];

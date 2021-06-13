@@ -115,7 +115,7 @@ async def test_start(dut):
         rpaddle.up()
         await ClockCycles(dut.clk32mhz, 2**DEBOUNCEWIDTH * 4)   # debounce with of 2 on 10MHz clock
 
-    print("Capturing the contents of the next screen refresh...")
+    print("Capturing the contents of the next screen to assert new paddle locations...")
     screen = await scanlines(dut)
     assert_screen(dedent("""\
         0000000000000000
@@ -163,7 +163,16 @@ async def test_start(dut):
     printscreen(screen)
 
     dut.difficulty <= 0xF
-    
+    print("Pressing start...")
+    dut.start <= 1
+    await ClockCycles(dut.clk32mhz, 4)
+    dut.start <= 0
+    cycles = int((2**17 / (127 * 15)) * 4)
+    # cycles = 60000
+    print("Waiting %d clock cycles for the ball to move 1 pixel..." % cycles)
+    await ClockCycles(dut.clk32mhz, cycles)
+    printscreen(await scanlines(dut))
+
 
 class Paddle(object):
     CYCLE = [1, 1, 0, 0]
