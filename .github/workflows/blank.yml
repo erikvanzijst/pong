@@ -13,12 +13,10 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Build iCE40 FPGA bitstream
-        run: |
-          make pong.bin
+        run: make pong.bin
 
       - name: Run cocotb test simulations
-        run: |
-          make test_trig test_paddle test_debounce test_encoder
+        run: make
 
       - name: Lint
         run: make lint || true
