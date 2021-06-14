@@ -18,5 +18,11 @@ jobs:
       - name: Run cocotb test simulations
         run: make
 
+      - name: Publish test results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: always()
+        with:
+          files: 'build/test-results/results_*.xml'
+
       - name: Lint
         run: make lint || true

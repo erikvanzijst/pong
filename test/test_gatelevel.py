@@ -3,7 +3,10 @@ from textwrap import dedent
 import cocotb
 from cocotb.clock import Clock
 from cocotb.result import TestFailure
-from cocotb.triggers import RisingEdge, FallingEdge, ClockCycles
+from cocotb.triggers import RisingEdge, ClockCycles
+
+from .paddle import Paddle
+from .dotmatrix import scanlines, assert_screen, printscreen
 
 clocks_per_phase = 1
 DEBOUNCEWIDTH = 2
@@ -29,44 +32,6 @@ async def reset(dut):
     await ClockCycles(dut.clk32mhz, 4)
     dut.reset <= 0
     await ClockCycles(dut.clk32mhz, 10)
-
-
-async def scanlines(dut):
-    """Collects the next full screen of 16 horizontal scanlines.
-
-    This waits for the screen refresh circuit to reach the end of the currently
-    drawing screen, return to the top left of the screen and then captures the
-    16 scanlines.
-
-    The screen contents are returned as a list of 16 integers.
-    """
-    lines = [0] * 16
-
-    await FallingEdge(dut.RSDI) # wait for start of a new screen...
-
-    for row in range(16):
-        await RisingEdge(dut.RCLK)  # wait for the first row to be ready...
-        for col in range(16):
-            lines[row + (-1 if (row & 1) else 1)] |= dut.CSDI.value << col
-            if col < 15:
-                await RisingEdge(dut.CCLK)
-
-    return lines
-
-
-def printscreen(scanlines) -> None:
-    for scanline in scanlines:
-        print(bin(scanline)[2:].rjust(16, '0'))
-
-
-def assert_screen(expected: str, scanlines) -> None:
-    for i, line in enumerate(expected.splitlines()):
-        if line != bin(scanlines[i])[2:].rjust(16, '0'):
-            error = "Screen mismatch\n"
-            for i_, line_ in enumerate(expected.splitlines()):
-                error += (line_ + "        " + bin(scanlines[i_])[2:].rjust(16, '0') + "\n")
-            error += "    Expected                 Actual\n"
-            raise TestFailure(error)
 
 
 @cocotb.test()
@@ -172,27 +137,3 @@ async def test_start(dut):
     print("Waiting %d clock cycles for the ball to move 1 pixel..." % cycles)
     await ClockCycles(dut.clk32mhz, cycles)
     printscreen(await scanlines(dut))
-
-
-class Paddle(object):
-    CYCLE = [1, 1, 0, 0]
-
-    def __init__(self, a, b):
-        self.a = a
-        self.b = b
-        self.a_phase = 2
-        self.b_phase = 3
-        self.a <= self.CYCLE[self.a_phase]
-        self.b <= self.CYCLE[self.b_phase]
-
-    def _turn(self, direction: int) -> None:
-        self.a_phase = (self.a_phase + direction) % 4
-        self.b_phase = (self.b_phase + direction) % 4
-        self.a <= self.CYCLE[self.a_phase]
-        self.b <= self.CYCLE[self.b_phase]
-
-    def up(self):
-        self._turn(-1)
-
-    def down(self):
-        self._turn(1)
