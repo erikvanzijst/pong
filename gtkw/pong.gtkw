@@ -1,34 +1,29 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Sun Jun 13 01:35:37 2021
+[*] Mon Jun 14 06:34:56 2021
 [*]
 [dumpfile] "/home/erik/work/openlane/designs/wrapped_pong/pong/pong.vcd"
-[dumpfile_mtime] "Sun Jun 13 01:32:48 2021"
-[dumpfile_size] 14836933
-[savefile] "/home/erik/work/openlane/designs/wrapped_pong/pong/pong.gtkw"
-[timestart] 139840000
-[size] 2946 1109
+[dumpfile_mtime] "Mon Jun 14 06:34:12 2021"
+[dumpfile_size] 1626567
+[savefile] "/home/erik/work/openlane/designs/wrapped_pong/pong/gtkw/pong.gtkw"
+[timestart] 280840000
+[size] 2081 1109
 [pos] -1 -1
-*-22.480097 158100000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-19.633034 283170000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] pong.
-[treeopen] pong._3985_.
-[treeopen] pong.output24.
-[treeopen] pong.PHY_1000.
+[treeopen] pong.game0.
+[treeopen] pong.game0.ball0.
 [sst_width] 334
 [signals_width] 254
 [sst_expanded] 1
 [sst_vpaned_height] 320
 @28
-pong.VPWR
-pong.VGND
 pong.reset
 pong.start
 @200
 -
 @28
 pong.clk32mhz
-pong.\clk10_mod.counter[1]
-pong.\clk10_mod.counter[0]
 @200
 -
 -top
@@ -39,15 +34,13 @@ pong.player1_a
 pong.player1_b
 pong.player2_a
 pong.player2_b
-pong.\game0.ball_reset
-pong.\game0.ball0.vert[7]
 @200
 -
 -
 -screen
 @28
-pong.RCLK
 pong.RSDI
+pong.RCLK
 pong.CCLK
 pong.CSDI
 pong.LE
@@ -57,43 +50,26 @@ pong.LE
 @28
 pong.player1_a
 pong.player1_b
-pong.\debounce_1a.debounced
-pong.\debounce_1b.debounced
 @200
 -
-@28
-pong.\debounce_1a.button_hist[0]
-pong.\debounce_1a.button_hist[1]
+@22
+pong.game0.difficulty[3:0]
+pong.game0.ball0.speed[3:0]
+@24
+pong.game0.ball0.theta[5:0]
+@420
+pong.game0.ball0.dx[20:0]
+@421
+pong.game0.ball0.dy[20:0]
+@22
+pong.game0.ball0.hor[20:0]
+pong.game0.ball0.vert[20:0]
+@24
+pong.game0.x[4:0]
+pong.game0.y[4:0]
 @200
 -
-@28
-pong.\encoder_1.value[0]
-pong.\encoder_1.value[1]
-@200
 -
-@28
-pong.\paddlemod_1.prev[0]
-pong.\paddlemod_1.prev[1]
-@29
-pong.\paddlemod_1.ram[0]
-pong.\paddlemod_1.ram[1]
-pong.\paddlemod_1.ram[2]
-pong.\paddlemod_1.ram[3]
-pong.\paddlemod_1.ram[4]
-pong.\paddlemod_1.ram[5]
-pong.\paddlemod_1.ram[6]
-pong.\paddlemod_1.ram[7]
-pong.\paddlemod_1.ram[8]
-pong.\paddlemod_1.ram[9]
-pong.\paddlemod_1.ram[10]
-pong.\paddlemod_1.ram[11]
-pong.\paddlemod_1.ram[12]
-pong.\paddlemod_1.ram[13]
-pong.\paddlemod_1.ram[14]
-pong.\paddlemod_1.ram[15]
-pong.\paddlemod_1.ram[16]
-pong.\paddlemod_1.ram[17]
-@200
 -
 @28
 pong.vsync

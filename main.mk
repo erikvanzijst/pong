@@ -1,6 +1,6 @@
 TEST_RESULTS = build/test-results
 
-all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball test_game
+all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball test_game test_pong
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top fpga -blif $@' $< $(ADD_SRC)

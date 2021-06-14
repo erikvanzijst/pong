@@ -17,11 +17,9 @@ async def scanlines(dut) -> List[int]:
     await FallingEdge(dut.RSDI)     # wait for start of a new screen...
 
     for row in range(16):
-        await RisingEdge(dut.RCLK)  # wait for the first row to be ready...
         for col in range(16):
+            await RisingEdge(dut.CCLK)
             lines[row + (-1 if (row & 1) else 1)] |= dut.CSDI.value << col
-            if col < 15:
-                await RisingEdge(dut.CCLK)
 
     return lines
 
