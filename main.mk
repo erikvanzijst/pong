@@ -78,7 +78,7 @@ test_gatelevel:
 	rm -rf sim_build/
 	mkdir -p sim_build/ ${TEST_RESULTS}
 	cat test/gl_header.v gds/pong.lvs.powered.v > sim_build/pong.lvs.powered.v
-	iverilog -o sim_build/gl_sim.vvp -s pong -s dump -g2012 sim_build/pong.lvs.powered.v test/dump_pong.v -I $(PDK_ROOT)/sky130A
+	iverilog -o sim_build/gl_sim.vvp -s pong -s dump -g2012 sim_build/pong.lvs.powered.v test/dump_gatelevel.v -I $(PDK_ROOT)/sky130A
 	PYTHONOPTIMIZE=${NOASSERT} COCOTB_RESULTS_FILE=${TEST_RESULTS}/results_gatelevel.xml MODULE=test.test_gatelevel vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/gl_sim.vvp
 	! grep failure ${TEST_RESULTS}/results_gatelevel.xml > /dev/null
 
