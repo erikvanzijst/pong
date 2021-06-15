@@ -1,20 +1,20 @@
 [*]
 [*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
-[*] Mon Jun 14 23:30:27 2021
+[*] Tue Jun 15 01:17:25 2021
 [*]
 [dumpfile] "/home/erik/work/openlane/designs/wrapped_pong/pong/gatelevel.vcd"
-[dumpfile_mtime] "Mon Jun 14 18:14:32 2021"
-[dumpfile_size] 19944041
+[dumpfile_mtime] "Tue Jun 15 01:07:08 2021"
+[dumpfile_size] 37620936
 [savefile] "/home/erik/work/openlane/designs/wrapped_pong/pong/gtkw/gatelevel.gtkw"
-[timestart] 0
-[size] 1802 958
+[timestart] 566800000
+[size] 1802 1162
 [pos] -1 -1
-*-27.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+*-21.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
 [treeopen] pong.
 [sst_width] 233
 [signals_width] 198
 [sst_expanded] 1
-[sst_vpaned_height] 269
+[sst_vpaned_height] 340
 @28
 pong.clk32mhz
 pong.reset
@@ -54,5 +54,76 @@ pong.vsync
 pong.rrggbb[5:0]
 @200
 -
+-Debugging
+@25
+pong.x[4:0]
+pong.y[4:0]
+@200
+-
+-game
+@28
+pong.\game0.ball_reset
+pong.\game0.freeze[0]
+pong.\game0.freeze[1]
+pong.\game0.freeze[2]
+pong.\game0.freeze[3]
+pong.\game0.freeze[4]
+pong.\game0.freeze[5]
+pong.\game0.freeze[6]
+pong.\game0.freeze[7]
+pong.\game0.freeze[8]
+pong.\game0.freeze[9]
+pong.\game0.freeze[10]
+pong.\game0.freeze[11]
+pong.\game0.freeze[12]
+pong.\game0.freeze[13]
+pong.\game0.freeze[14]
+pong.\game0.freeze[15]
+pong.\game0.freeze[16]
+@200
+-
+@28
+pong.\game0.speed[0]
+pong.\game0.speed[1]
+pong.\game0.speed[2]
+pong.\game0.speed[3]
+@200
+-
+@28
+pong.\game0.ball0.hor[0]
+pong.\game0.ball0.hor[1]
+pong.\game0.ball0.hor[2]
+pong.\game0.ball0.hor[3]
+pong.\game0.ball0.hor[4]
+pong.\game0.ball0.hor[5]
+pong.\game0.ball0.hor[6]
+pong.\game0.ball0.hor[7]
+pong.\game0.ball0.hor[8]
+pong.\game0.ball0.hor[9]
+pong.\game0.ball0.hor[10]
+pong.\game0.ball0.hor[11]
+pong.\game0.ball0.hor[12]
+pong.\game0.ball0.hor[13]
+pong.\game0.ball0.hor[14]
+pong.\game0.ball0.hor[15]
+@200
+-
+@28
+pong.\game0.ball0.vert[0]
+pong.\game0.ball0.vert[1]
+pong.\game0.ball0.vert[2]
+pong.\game0.ball0.vert[3]
+pong.\game0.ball0.vert[4]
+pong.\game0.ball0.vert[5]
+pong.\game0.ball0.vert[6]
+pong.\game0.ball0.vert[7]
+pong.\game0.ball0.vert[8]
+pong.\game0.ball0.vert[9]
+pong.\game0.ball0.vert[10]
+pong.\game0.ball0.vert[11]
+pong.\game0.ball0.vert[12]
+pong.\game0.ball0.vert[13]
+pong.\game0.ball0.vert[14]
+pong.\game0.ball0.vert[15]
 [pattern_trace] 1
 [pattern_trace] 0
