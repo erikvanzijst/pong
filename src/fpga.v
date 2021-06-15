@@ -93,6 +93,10 @@ module fpga (
     wire CCLK;
     wire LE;
 
+    // Unconnected wires for debugging:
+    wire [4:0] x;
+    wire [4:0] y;
+
     pong pong0(
         .clk32mhz(clk32mhz),
         .reset(reset),
@@ -124,7 +128,10 @@ module fpga (
         // VGA out:
         .hsync(hsync),
         .vsync(vsync),
-        .rrggbb(rrggbb)
+        .rrggbb(rrggbb),
+
+        .x(x),
+        .y(y)
     );
 
 endmodule

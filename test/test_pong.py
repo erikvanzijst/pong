@@ -85,3 +85,4 @@ async def test_ball_movement(dut):
     # Since the direction is pseudo random based on the LFSR generator, anticipate all directions:
     assert (dut.x.value.integer, dut.y.value.integer) in ((16, 17), (16, 15), (15, 16), (17, 16),
                                                           (15, 15), (17, 17), (15, 17), (17, 15))
+    printscreen(await scanlines(dut))

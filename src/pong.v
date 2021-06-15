@@ -50,7 +50,11 @@ module pong
     // VGA out:
     output wire hsync,
     output wire vsync,
-    output wire [5:0] rrggbb
+    output wire [5:0] rrggbb,
+
+    // Debugging:
+    output wire [4:0] x,
+    output wire [4:0] y
     );
 
     wire clk10mhz;  // clk32mhz / 3 for the slower game logic
@@ -64,7 +68,6 @@ module pong
     wire out_left, out_right;
     wire [3:0] score_p1, score_p2;
 
-    wire [4:0] x, y;
     wire game_clk;
 
     wire [31:0] paddle_1;
@@ -73,7 +76,7 @@ module pong
     wire signed [1:0] player1_encoder, player2_encoder;
 
     rnd random(
-        .clk(game_clk),
+        .clk(clk32mhz),
         .reset(reset),
         .q(entropy)
     );

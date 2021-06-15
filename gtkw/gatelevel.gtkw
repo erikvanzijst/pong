@@ -1,0 +1,58 @@
+[*]
+[*] GTKWave Analyzer v3.3.103 (w)1999-2019 BSI
+[*] Mon Jun 14 23:30:27 2021
+[*]
+[dumpfile] "/home/erik/work/openlane/designs/wrapped_pong/pong/gatelevel.vcd"
+[dumpfile_mtime] "Mon Jun 14 18:14:32 2021"
+[dumpfile_size] 19944041
+[savefile] "/home/erik/work/openlane/designs/wrapped_pong/pong/gtkw/gatelevel.gtkw"
+[timestart] 0
+[size] 1802 958
+[pos] -1 -1
+*-27.000000 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] pong.
+[sst_width] 233
+[signals_width] 198
+[sst_expanded] 1
+[sst_vpaned_height] 269
+@28
+pong.clk32mhz
+pong.reset
+@200
+-
+-inputs
+@28
+pong.start
+@200
+-
+@28
+pong.player1_a
+pong.player1_b
+pong.player2_a
+pong.player2_b
+@200
+-
+@22
+pong.difficulty[3:0]
+@200
+-
+-screen
+@28
+pong.RCLK
+pong.RSDI
+pong.CCLK
+pong.CSDI
+pong.LE
+pong.OEB
+@200
+-
+-vga
+@28
+pong.hsync
+pong.vsync
+@22
+pong.rrggbb[5:0]
+@200
+-
+[pattern_trace] 1
+[pattern_trace] 0

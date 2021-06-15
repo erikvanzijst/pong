@@ -132,8 +132,13 @@ async def test_start(dut):
     dut.start <= 1
     await ClockCycles(dut.clk32mhz, 4)
     dut.start <= 0
-    cycles = int((2**17 / (127 * 15)) * 4)
-    # cycles = 60000
+    cycles = int(2**17 / (127 * 15)) * 3
     print("Waiting %d clock cycles for the ball to move 1 pixel..." % cycles)
     await ClockCycles(dut.clk32mhz, cycles)
+    dut.difficulty = 0     # prevent further ball movement while we capture the screen
     printscreen(await scanlines(dut))
+    print(f"x={dut.x.value.integer} y={dut.y.value.integer}")
+
+    # Since the direction is pseudo random based on the LFSR generator, anticipate all directions:
+    assert (dut.x.value.integer, dut.y.value.integer) in ((16, 17), (16, 15), (15, 16), (17, 16),
+                                                          (15, 15), (17, 17), (15, 17), (17, 15))
