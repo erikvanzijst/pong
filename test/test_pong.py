@@ -61,6 +61,9 @@ async def test_start(dut):
         0000000000000001
         0000000000000000
     """), screen)
+    assert dut.score_p1 == 0
+    assert dut.score_p2 == 0
+    assert dut.cath1.value ^ dut.cath2.value, "Exactly one cathode must be active"
 
 
 @cocotb.test()
@@ -86,3 +89,6 @@ async def test_ball_movement(dut):
     assert (dut.x.value.integer, dut.y.value.integer) in ((16, 17), (16, 15), (15, 16), (17, 16),
                                                           (15, 15), (17, 17), (15, 17), (17, 15))
     printscreen(await scanlines(dut))
+    assert dut.score_p1 == 0
+    assert dut.score_p2 == 0
+    assert dut.cath1.value ^ dut.cath2.value, "Exactly one cathode must be active"

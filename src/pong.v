@@ -29,15 +29,10 @@ module pong
     input wire player2_a,
     input wire player2_b,
 
-    // 7-segment scoreboards:
-    output wire seg_a,
-    output wire seg_b,
-    output wire seg_c,
-    output wire seg_d,
-    output wire seg_e,
-    output wire seg_f,
-    output wire seg_g,
-    output wire cath,
+    // BCD scoreboards:
+    output wire [3:0] score,
+    output wire cath1,
+    output wire cath2,
 
     // Dot-matrix display out:
     output wire RCLK,
@@ -181,14 +176,9 @@ module pong
         .score_p2(score_p2),
 
         // output:
-        .seg_a(seg_a),
-        .seg_b(seg_b),
-        .seg_c(seg_c),
-        .seg_d(seg_d),
-        .seg_e(seg_e),
-        .seg_f(seg_f),
-        .seg_g(seg_g),
-        .cath(cath)
+        .score_o(score),
+        .cath1(cath1),
+        .cath2(cath2)
     );
 
     screen #(.TIMERWIDTH(SCREENTIMERWIDTH)) screen0(

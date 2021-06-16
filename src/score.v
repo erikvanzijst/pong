@@ -8,37 +8,21 @@ module score (
     input [3:0] score_p1,
     input [3:0] score_p2,
 
-    output wire seg_a,
-    output wire seg_b,
-    output wire seg_c,
-    output wire seg_d,
-    output wire seg_e,
-    output wire seg_f,
-    output wire seg_g,
-    output wire cath
+    output wire [3:0] score_o,
+    output wire cath1,
+    output wire cath2
 );
 
     reg clk_toggle;
     reg [9:0] blinker;
 
-    wire [6:0] dout;
-    assign {seg_g, seg_f, seg_e, seg_d, seg_c, seg_b, seg_a} = dout;
-    wire [6:0] dout_p1, dout_p2;
-
     // Blink the scores when the game is over:
     wire on;
     assign on = (score_p1 < 9 && score_p2 < 9) || blinker[9];
 
-    assign dout_p1 = on ? seven_seg(score_p1) : 6'b0;
-    assign dout_p2 = on ? seven_seg(score_p2) : 6'b0;
-
-    assign dout = clk_toggle ? dout_p2 : dout_p1;
-    assign cath = clk_toggle;
-
-    initial begin
-        clk_toggle <= 0;
-        blinker <= 0;
-    end
+    assign score_o = clk_toggle ? score_p1 : score_p2;
+    assign cath1 = on && clk_toggle;
+    assign cath2 = on && !clk_toggle;
 
     always @(posedge clk or posedge reset) begin
         if (reset) begin
@@ -53,23 +37,4 @@ module score (
             blinker <= blinker + 1;
         end
     end
-
-    function [6:0] seven_seg (input [3:0] din);
-        case (din)
-            4'h0: seven_seg = 7'b 0111111;
-            4'h1: seven_seg = 7'b 0000110;
-            4'h2: seven_seg = 7'b 1011011;
-            4'h3: seven_seg = 7'b 1001111;
-            4'h4: seven_seg = 7'b 1100110;
-            4'h5: seven_seg = 7'b 1101101;
-            4'h6: seven_seg = 7'b 1111101;
-            4'h7: seven_seg = 7'b 0000111;
-            4'h8: seven_seg = 7'b 1111111;
-            4'h9: seven_seg = 7'b 1101111;
-
-            // unused:
-            default: seven_seg = 7'b 1000000;
-        endcase
-    endfunction
-
 endmodule

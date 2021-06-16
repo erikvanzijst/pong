@@ -1,6 +1,6 @@
 TEST_RESULTS = build/test-results
 
-all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball test_game test_pong
+all: test_trig test_paddle test_debounce test_encoder test_rnd test_ball test_game test_pong test_score
 
 %.blif: src/%.v $(ADD_SRC) $(ADD_DEPS)
 	yosys -ql $*.log -p 'synth_ice40 -top fpga -blif $@' $< $(ADD_SRC)
@@ -29,6 +29,13 @@ test_trig:
 	iverilog -o sim_build/trigsim.vvp -s trig -s dump src/trig.v test/dump_trig.v
 	PYTHONOPTIMIZE=${NOASSERT} COCOTB_RESULTS_FILE=${TEST_RESULTS}/results_trig.xml MODULE=test.test_trig vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/trigsim.vvp
 	! grep failure ${TEST_RESULTS}/results_trig.xml > /dev/null
+
+test_score:
+	rm -rf sim_build/
+	mkdir -p sim_build/ ${TEST_RESULTS}
+	iverilog -o sim_build/scoresim.vvp -s score -s dump src/score.v test/dump_score.v
+	PYTHONOPTIMIZE=${NOASSERT} COCOTB_RESULTS_FILE=${TEST_RESULTS}/results_score.xml MODULE=test.test_score vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/scoresim.vvp
+	! grep failure ${TEST_RESULTS}/results_score.xml > /dev/null
 
 test_rnd:
 	rm -rf sim_build/

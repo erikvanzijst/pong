@@ -47,22 +47,6 @@ set_io -nowarn rrggbb[2]          44
 set_io -nowarn rrggbb[1]          4
 set_io -nowarn rrggbb[0]          2
 
-# PMOD 1B
-set_io -nowarn P1B1       43
-set_io -nowarn P1B2       38
-set_io -nowarn P1B3       34
-set_io -nowarn P1B4       31
-set_io -nowarn P1B7       42
-set_io -nowarn P1B8       36
-set_io -nowarn P1B9       32
-set_io -nowarn P1B10      28
-
-# PMOD 2 - Rotary encoders
-set_io -nowarn player1_a       27
-set_io -nowarn player1_b       25
-set_io -nowarn player2_a       21
-set_io -nowarn player2_b       19
-
 # PMOD 2
 set_io -nowarn P2_1       27
 set_io -nowarn P2_2       25
@@ -73,65 +57,43 @@ set_io -nowarn P2_8       23
 set_io -nowarn P2_9       20
 set_io -nowarn P2_10      18
 
-# 7-Segments
-set_io -nowarn seg_b      26
-set_io -nowarn cath       27
-set_io -nowarn seg_a      25
-set_io -nowarn seg_f      23
-set_io -nowarn seg_g      21
-set_io -nowarn seg_c      20
-set_io -nowarn seg_d      19
-set_io -nowarn seg_e      18
 
-set_io -nowarn led[0]     26
-set_io -nowarn led[1]     27
-set_io -nowarn led[2]     25
-set_io -nowarn led[3]     23
-set_io -nowarn led[4]     21
+# PMOD 2
 
-## WTFpga assignments
-# 7 Segment
-set_io -nowarn 7SAA        4
-set_io -nowarn 7SAE        2
-set_io -nowarn 7SAB       47
-set_io -nowarn 7SAF       45
-set_io -nowarn 7SAC        3
-set_io -nowarn 7SAG       48
-set_io -nowarn 7SAD       46
-set_io -nowarn 7SCA       44
+# Rotary encoders
+set_io -nowarn player1_a       27
+set_io -nowarn player1_b       25
+set_io -nowarn player2_a       21
+set_io -nowarn player2_b       19
 
-set_io -nowarn seg[0]      4
-set_io -nowarn seg[1]      2
-set_io -nowarn seg[2]     47
-set_io -nowarn seg[3]     45
-set_io -nowarn seg[4]      3
-set_io -nowarn seg[5]     48
-set_io -nowarn seg[6]     46
-set_io -nowarn ca         44
+# BCD Score
+set_io -nowarn score[1]   26
+set_io -nowarn score[2]   23
+set_io -nowarn score[3]   20
+set_io -nowarn score[0]   18
 
-# DIP-Switch
-#set_io -nowarn DIP1       43
-#set_io -nowarn DIP2       38
-#set_io -nowarn DIP3       34
-#set_io -nowarn DIP4       31
-#set_io -nowarn DIP5       42
-#set_io -nowarn DIP6       36
-#set_io -nowarn DIP7       32
-#set_io -nowarn DIP8       28
 
-# PMOD 1B - Matrix display
-set_io -nowarn OEB       43
-set_io -nowarn CSDI      38
-set_io -nowarn CCLK      34
-set_io -nowarn LE        31
-set_io -nowarn RCLK      42
-set_io -nowarn RSDI      36
+# PMOD 1B
+
+# BCD scoreboard cathodes
+set_io -nowarn cath1     42
+set_io -nowarn cath2     36
+
+# Start & reset
 set_io -nowarn reset     32
 set_io -nowarn start     28
 
-# PMOD 1B - Difficulty dial
+# Difficulty dial
 set_io -nowarn difficulty[3]     43
 set_io -nowarn difficulty[2]     38
 set_io -nowarn difficulty[1]     34
 set_io -nowarn difficulty[0]     31
+
+# Matrix display
+#set_io -nowarn OEB       43
+#set_io -nowarn CSDI      38
+#set_io -nowarn CCLK      34
+#set_io -nowarn LE        31
+#set_io -nowarn RCLK      42
+#set_io -nowarn RSDI      36
 

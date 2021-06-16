@@ -13,16 +13,10 @@ module fpga (
 
     input wire [3:0] difficulty,
 
-//  Not enough pins on the iCEBreaker :-/
-    // 7-segment scoreboards:
-//    output wire seg_a,
-//    output wire seg_b,
-//    output wire seg_c,
-//    output wire seg_d,
-//    output wire seg_e,
-//    output wire seg_f,
-//    output wire seg_g,
-//    output wire cath,
+    // BCD scoreboards:
+    output wire [3:0] score,
+    output wire cath1,
+    output wire cath2,
 
     // Dot-matrix display out:
 //    output wire RCLK,
@@ -75,16 +69,6 @@ module fpga (
         assign clk32mhz = clk;
     `endif
 
-    // Disconnected 7-seg elements as we use the PMOD 1A port for VGA on the iCEBreaker:
-    wire seg_a;
-    wire seg_b;
-    wire seg_c;
-    wire seg_d;
-    wire seg_e;
-    wire seg_f;
-    wire seg_g;
-    wire cath;
-
     // Disconnected dot matrix display as we use the PMOD 1B for the difficulty dial:
     wire RCLK;
     wire RSDI;
@@ -109,14 +93,9 @@ module fpga (
         .player2_a(player2_a),
         .player2_b(player2_b),
 
-        .seg_a(seg_a),
-        .seg_b(seg_b),
-        .seg_c(seg_c),
-        .seg_d(seg_d),
-        .seg_e(seg_e),
-        .seg_f(seg_f),
-        .seg_g(seg_g),
-        .cath(cath),
+        .score(score),
+        .cath1(cath1),
+        .cath2(cath2),
 
         .RCLK(RCLK),
         .RSDI(RSDI),
