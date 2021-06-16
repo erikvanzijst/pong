@@ -47,6 +47,8 @@ module pong
     output wire vsync,
     output wire [5:0] rrggbb,
 
+    output wire buzzer,
+
     // Debugging:
     output wire [4:0] x,
     output wire [4:0] y
@@ -60,7 +62,7 @@ module pong
     wire player2_a_deb;
     wire player2_b_deb;
 
-    wire out_left, out_right;
+    wire out_left, out_right, paddle_hit, wall_hit;
     wire [3:0] score_p1, score_p2;
 
     wire game_clk;
@@ -161,6 +163,7 @@ module pong
         // output:
         .x(x),
         .y(y),
+        .buzzer(buzzer),
         .out_left(out_left),
         .out_right(out_right),
         .score_p1(score_p1),

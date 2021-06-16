@@ -19,7 +19,7 @@ endif
 test_pong:
 	rm -rf sim_build/
 	mkdir -p sim_build/ ${TEST_RESULTS}
-	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=5 -Ppong.GAMECLK=2 -Ppong.DEBOUNCEWIDTH=2 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/trig.v src/debounce.v src/rot_encoder.v src/vga.v src/vgasync.v src/score.v src/rnd.v src/game.v test/dump_pong.v
+	iverilog -o sim_build/sim.vvp -Ppong.SCREENTIMERWIDTH=5 -Ppong.GAMECLK=2 -Ppong.DEBOUNCEWIDTH=2 -s pong -s dump src/paddle.v src/pong.v src/clkdiv.v src/screen.v src/ball.v src/tone.v src/trig.v src/debounce.v src/rot_encoder.v src/vga.v src/vgasync.v src/score.v src/rnd.v src/game.v test/dump_pong.v
 	PYTHONOPTIMIZE=${NOASSERT} COCOTB_RESULTS_FILE=${TEST_RESULTS}/results_pong.xml MODULE=test.test_pong vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/sim.vvp
 	! grep failure ${TEST_RESULTS}/results_pong.xml > /dev/null
 
@@ -47,7 +47,7 @@ test_rnd:
 test_game:
 	rm -rf sim_build/
 	mkdir -p sim_build/ ${TEST_RESULTS}
-	iverilog -o sim_build/gamesim.vvp -s game -s dump src/game.v src/ball.v src/trig.v test/dump_game.v
+	iverilog -o sim_build/gamesim.vvp -s game -s dump src/game.v src/ball.v src/tone.v src/trig.v test/dump_game.v
 	PYTHONOPTIMIZE=${NOASSERT} COCOTB_RESULTS_FILE=${TEST_RESULTS}/results_game.xml MODULE=test.test_game vvp -M $$(cocotb-config --prefix)/cocotb/libs -m libcocotbvpi_icarus sim_build/gamesim.vvp
 	! grep failure ${TEST_RESULTS}/results_game.xml > /dev/null
 

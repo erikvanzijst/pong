@@ -3,7 +3,7 @@
 
 module fpga (
     input wire clk,
-    input wire reset,
+//    input wire reset, // Insufficient GPIOs
     input wire start,
 
     input wire player1_a,
@@ -17,6 +17,8 @@ module fpga (
     output wire [3:0] score,
     output wire cath1,
     output wire cath2,
+
+    output wire buzzer,
 
     // Dot-matrix display out:
 //    output wire RCLK,
@@ -77,6 +79,10 @@ module fpga (
     wire CCLK;
     wire LE;
 
+    // Disconnected reset line:
+    wire reset;
+    assign reset = 0;
+
     // Unconnected wires for debugging:
     wire [4:0] x;
     wire [4:0] y;
@@ -108,6 +114,8 @@ module fpga (
         .hsync(hsync),
         .vsync(vsync),
         .rrggbb(rrggbb),
+
+        .buzzer(buzzer),
 
         .x(x),
         .y(y)

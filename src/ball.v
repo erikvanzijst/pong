@@ -16,6 +16,9 @@ module ball #(parameter integer THETA_WIDTH = 6)
     output wire [4:0] x,
     output wire [4:0] y,
 
+    output wire paddle_hit,  // ball hit a paddle
+    output wire wall_hit,    // ball hit a wall
+
     output out_left,    // ball reached far-left edge
     output out_right    // ball reached far-right edge
     );
@@ -51,7 +54,6 @@ module ball #(parameter integer THETA_WIDTH = 6)
     wire moving_right;
     assign moving_right = (theta[THETA_WIDTH-1] ^ theta[THETA_WIDTH-2]);
 
-    wire paddle_hit;
     assign paddle_hit =
         (next_hor[20:16] == 5'h1F && moving_left && (lpaddle & (1 << next_vert[20:16]))) ||
         (next_hor[20:16] == 5'h0 && moving_right && (rpaddle & (1 << next_vert[20:16])));
@@ -62,6 +64,8 @@ module ball #(parameter integer THETA_WIDTH = 6)
     wire wrap_y;
     assign wrap_y = (next_vert[20:16] && !vert[20:16] && theta[THETA_WIDTH-1]) ||     // top
                     (!next_vert[20:16] && vert[20:16] && !theta[THETA_WIDTH-1]);      // bottom
+
+    assign wall_hit = out_left || out_right || wrap_y;
 
     trig trig0 (.CLK(clk), .theta_i(theta), .sin_o(sin_theta), .cos_o(cos_theta));
 
@@ -90,7 +94,7 @@ module ball #(parameter integer THETA_WIDTH = 6)
                 vert <= next_vert;
             end
 
-            if (paddle_hit || out_left || out_right) begin
+            if (paddle_hit) begin
                 theta <= ((1 << THETA_WIDTH-1) - theta) + bounce;
             end
 

@@ -80,8 +80,10 @@ set_io -nowarn cath1     42
 set_io -nowarn cath2     36
 
 # Start & reset
-set_io -nowarn reset     32
+#set_io -nowarn reset     32    # in use by piezo buzzer
 set_io -nowarn start     28
+
+set_io -nowarn buzzer    32
 
 # Difficulty dial
 set_io -nowarn difficulty[3]     43

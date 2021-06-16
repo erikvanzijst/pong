@@ -82,8 +82,8 @@ async def test_paddle_bounce(dut):
     # After col 30 we should hit the left paddle and reverse direction:
     await step(1)
 
-    assert(dut.x == 30)
-    assert(dut.theta == 32)
+    assert dut.x == 30
+    assert dut.theta == 32
     await ClockCycles(dut.clk, 2)
 
 

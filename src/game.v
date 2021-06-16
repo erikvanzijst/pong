@@ -16,6 +16,8 @@ module game (
     output wire [4:0] x,
     output wire [4:0] y,
 
+    output wire buzzer,
+
     output wire out_left,
     output wire out_right,
     output reg [3:0] score_p1,
@@ -78,6 +80,9 @@ module game (
         end
     end
 
+    wire paddle_hit;
+    wire wall_hit;
+
     ball ball0(
         .clk(game_clk),
         .reset(reset),
@@ -90,8 +95,21 @@ module game (
 
         .x(x),
         .y(y),
+        .paddle_hit(paddle_hit),
+        .wall_hit(wall_hit),
+
         .out_left(out_left),
         .out_right(out_right)
+    );
+
+    tone tone0(
+        .clk(game_clk),
+        .reset(reset),
+
+        .tone(paddle_hit),
+        .start(speed && (paddle_hit || wall_hit)),
+
+        .buzzer(buzzer)
     );
 
 endmodule
